@@ -1,6 +1,7 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Aplikacja do plików",
+  "name": "Aplikacja do plików",
+  "description": "Aplikacja służąca do przesyłania plików pdf, img oraz pptx.",
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,6 +21,9 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#F0F3F8",
+  "background_color": "#F0F3F8",
+  "scope": "/",
+  "categories": ["education", "social", ""],
+  "lang": "pl"
 }
