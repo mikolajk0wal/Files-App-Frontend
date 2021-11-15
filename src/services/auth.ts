@@ -11,7 +11,12 @@ interface SignUpDto extends SignInDto {
 
 export const authApi = createApi({
   reducerPath: 'authApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8000/api' }),
+  baseQuery: fetchBaseQuery({
+    baseUrl:
+      process.env.NODE_ENV === 'development'
+        ? 'http://localhost:8000/api'
+        : '/api',
+  }),
   tagTypes: ['User'],
   endpoints: (builder) => ({
     signIn: builder.mutation({

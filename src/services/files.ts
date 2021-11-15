@@ -28,7 +28,12 @@ interface GetFilesData {
 
 export const filesApi = createApi({
   reducerPath: 'filesApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8000/api' }),
+  baseQuery: fetchBaseQuery({
+    baseUrl:
+      process.env.NODE_ENV === 'development'
+        ? 'http://localhost:8000/api'
+        : '/api',
+  }),
   tagTypes: ['File'],
   endpoints: (builder) => ({
     getFilesByType: builder.query<FileInterface[], GetFilesData>({

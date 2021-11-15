@@ -66,7 +66,13 @@ const FileCard: React.FC<Props> = ({
         Data Dodania: {dayjs(createdAt).format('DD/MM/YYYY')}
       </Paragraph>
       <ButtonsWrapper>
-        <DownloadButton href={`http://localhost:8000/api/files/file/${id}`}>
+        <DownloadButton
+          href={
+            process.env.NODE_ENV === 'development'
+              ? `http://localhost:8000/api/files/file/${id}`
+              : `api/files/file/${id}`
+          }
+        >
           Pobierz
         </DownloadButton>
         {authorName === login && (
