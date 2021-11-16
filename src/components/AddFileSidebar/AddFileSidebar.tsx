@@ -8,6 +8,9 @@ import {
   StyledInput,
   selectStyles,
   Title,
+  CloseButton,
+  CloseIcon,
+  HeadingWrapper,
 } from './AddFileSidebar.styles';
 import * as Yup from 'yup';
 import { Formik, Form, Field, FormikHelpers, ErrorMessage } from 'formik';
@@ -59,7 +62,7 @@ const AddFileSidebar: React.FC = () => {
     acceptInputFile = '.pptx, .ppt';
   }
 
-  const { addFileSidebarOpened } = useContext(UIContext);
+  const { addFileSidebarOpened, closeAddFileSidebar } = useContext(UIContext);
 
   return (
     <Formik
@@ -99,7 +102,18 @@ const AddFileSidebar: React.FC = () => {
     >
       <Form autoComplete="off">
         <FormWrapper opened={addFileSidebarOpened}>
-          <Title>Dodaj plik</Title>
+          <HeadingWrapper>
+            <Title>Dodaj plik</Title>
+            <CloseButton
+              aria-label="Close Sidebar"
+              clicked={true}
+              type="button"
+              onClick={closeAddFileSidebar}
+            >
+              <CloseIcon alt="Close Icon" />
+            </CloseButton>
+          </HeadingWrapper>
+
           <Field placeholder="Tytuł" name="title" id="title" as={StyledInput} />
           <ErrorMessage name="title" component={FormErrorMessage} />
           <Field

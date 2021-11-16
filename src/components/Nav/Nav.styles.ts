@@ -110,10 +110,16 @@ const IconStyles = css`
     height: 60px;
     border-radius: 13.5px;
   }
-  @media (max-width: 335px) {
+  @media (max-width: 360px) {
     width: 50px;
     height: 50px;
+    margin: 5px;
     border-radius: 12.5px;
+  }
+  @media (max-width: 340px) {
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
   }
 `;
 

@@ -18,7 +18,6 @@ import {
   AddIcon,
   AddButton,
 } from './Nav.styles';
-import { detectMobile } from '../../utils/detect-mobile';
 
 const Nav: React.FC = () => {
   const { addFileSidebarOpened, openAddFileSidebar, closeAddFileSidebar } =
@@ -30,8 +29,6 @@ const Nav: React.FC = () => {
   const { pathname } = useLocation();
 
   const showModal = useModal();
-
-  const isMobile = detectMobile();
 
   const handleLogout = async () => {
     const isConfirmed = await showModal(
@@ -61,7 +58,7 @@ const Nav: React.FC = () => {
         <PptxIcon alt="PPTX Icon" />
       </StyledNavLink>
 
-      {userId && !isMobile && (
+      {userId && (
         <Route path={['/pdf', '/img', '/pptx']}>
           <AddButton
             aria-label="Open Sidebar"

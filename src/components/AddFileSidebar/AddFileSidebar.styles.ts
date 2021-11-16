@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { AddButton, AddIcon } from '../Nav/Nav.styles';
 
 export const Title = styled.h3`
   font-size: 2rem;
@@ -25,16 +26,16 @@ export const FormWrapper = styled.div<FormProps>`
   transition: 0.5s transform;
   @media (max-height: 600px) {
     height: 100vh;
+    top: 0;
   }
   @media (max-width: 650px) {
     width: 100%;
-    top: 100px;
-    height: calc(100vh - 100px);
+    height: 100vh;
   }
   @media (max-width: 395px) {
     width: 100%;
-    top: 200px;
-    height: calc(100vh - 200px);
+    top: 0;
+    height: 100vh;
   }
   ${(props) =>
     props.opened ? `transform: translate(0px)` : `transform:translate(100%)`}
@@ -53,6 +54,22 @@ export const StyledInput = styled.input`
     width: 240px;
     box-sizing: border-box;
   }
+`;
+
+export const CloseButton = styled(AddButton)`
+  @media (min-width: 650px) {
+    display: none;
+  }
+  margin: 10px;
+`;
+export const CloseIcon = styled(AddIcon)`
+  color: #fff;
+`;
+
+export const HeadingWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const selectStyles = {
