@@ -1,9 +1,7 @@
 import React, { Suspense } from 'react';
-import { Provider } from 'react-redux';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import PageTemplate from '../components/PageTemplate/PageTemplate';
 import UIProvider from '../context/UIContext';
-import { store } from '../store';
 import CustomLoader from '../components/CustomLoader/CustomLoader';
 
 const Login = React.lazy(() => import('./Login'));
@@ -13,33 +11,31 @@ const NotFound = React.lazy(() => import('./NotFound'));
 
 const Root = () => {
   return (
-    <Provider store={store}>
-      <UIProvider>
-        <BrowserRouter>
-          <PageTemplate>
-            <Suspense fallback={<CustomLoader />}>
-              <Switch>
-                <Route exact path="/">
-                  <Redirect to="/pdf" />
-                </Route>
-                <Route path={['/pdf', '/img', '/pptx']}>
-                  <FilesPage />
-                </Route>
-                <Route path="/login">
-                  <Login />
-                </Route>
-                <Route path="/register">
-                  <Register />
-                </Route>
-                <Route>
-                  <NotFound />
-                </Route>
-              </Switch>
-            </Suspense>
-          </PageTemplate>
-        </BrowserRouter>
-      </UIProvider>
-    </Provider>
+    <UIProvider>
+      <BrowserRouter>
+        <PageTemplate>
+          <Suspense fallback={<CustomLoader />}>
+            <Switch>
+              <Route exact path="/">
+                <Redirect to="/pdf" />
+              </Route>
+              <Route path={['/pdf', '/img', '/pptx']}>
+                <FilesPage />
+              </Route>
+              <Route path="/login">
+                <Login />
+              </Route>
+              <Route path="/register">
+                <Register />
+              </Route>
+              <Route>
+                <NotFound />
+              </Route>
+            </Switch>
+          </Suspense>
+        </PageTemplate>
+      </BrowserRouter>
+    </UIProvider>
   );
 };
 

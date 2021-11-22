@@ -4,10 +4,14 @@ import './index.css';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import reportWebVitals from './reportWebVitals';
 import Root from './views/Root';
+import { Provider } from 'react-redux';
+import { store } from './store';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Root />
+    <Provider store={store}>
+      <Root />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
