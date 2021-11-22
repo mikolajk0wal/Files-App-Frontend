@@ -40,6 +40,7 @@ export const filesApi = createApi({
       query: ({ type, sortType }) =>
         `files/type/${type}${sortType ? `?sort=${sortType}` : ''} `,
       providesTags: ['File'],
+      transformResponse: (data: any) => data.files,
     }),
     addFile: builder.mutation({
       query: ({ title, subject, type, file }: CreateFileDto) => {
@@ -69,7 +70,11 @@ export const filesApi = createApi({
               'getFilesByType',
               { type, sortType },
               (draft) => {
-                draft.push(addedFile);
+                if (sortType === 'desc') {
+                  draft.unshift(addedFile);
+                } else {
+                  draft.push(addedFile);
+                }
               }
             )
           );

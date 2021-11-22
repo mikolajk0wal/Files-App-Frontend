@@ -24,6 +24,7 @@ export const Navigation = styled.nav`
   background-color: #fff;
   position: fixed;
   left: 0;
+  z-index: 5;
   top: 0;
   padding: 100px 0;
   width: 160px;

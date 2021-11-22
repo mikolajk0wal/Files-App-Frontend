@@ -17,6 +17,7 @@ export const FormWrapper = styled.div<FormProps>`
   width: 400px;
   height: 100vh;
   position: fixed;
+  z-index: 10;
   top: 0;
   right: 0;
   display: flex;
