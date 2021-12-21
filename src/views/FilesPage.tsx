@@ -16,11 +16,16 @@ import { selectStyles } from '../components/AddFileSidebar/AddFileSidebar.styles
 import { SortType } from '../types/SortType';
 import { UIContext } from '../context/UIContext';
 
-const FilesPage = () => {
+interface Props {
+  dashboard?: boolean;
+}
+
+const FilesPage: React.FC<Props> = ({ dashboard }) => {
   const { sortType, setSortType } = useContext(UIContext);
   const { pathname } = useLocation();
-
-  const fileType = pathname.slice(1) as FileType;
+  const fileType = dashboard
+    ? (pathname.slice(11) as FileType)
+    : (pathname.slice(1) as FileType);
 
   const {
     data: files,
@@ -31,7 +36,8 @@ const FilesPage = () => {
 
   useEffect(() => {
     refetch();
-  }, [sortType, refetch]);
+    document.title = `${fileType.toUpperCase()} | Aplikacja do plików`;
+  }, [sortType, refetch, fileType]);
 
   const selectOptions = [
     { value: 'desc' as SortType, label: 'Od Najnowszego' },

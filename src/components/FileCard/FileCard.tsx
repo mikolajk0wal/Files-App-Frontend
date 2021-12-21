@@ -15,6 +15,7 @@ import { RootState } from '../../store';
 import useModal from '../../hooks/useModal';
 import { useDeleteFileMutation } from '../../services/files';
 import { UIContext } from '../../context/UIContext';
+import { UserType } from '../../enums/UserType';
 
 interface Props {
   title: string;
@@ -35,7 +36,9 @@ const FileCard: React.FC<Props> = ({
 }) => {
   const { sortType } = useContext(UIContext);
   const [deleteFile] = useDeleteFileMutation();
-  const { login } = useSelector((state: RootState) => state.auth);
+  const { login, type: userType } = useSelector(
+    (state: RootState) => state.auth
+  );
   const showModal = useModal();
   const handleDelete = async () => {
     const isConfirmed = await showModal(
@@ -57,6 +60,11 @@ const FileCard: React.FC<Props> = ({
         });
     }
   };
+  const canDelete =
+    authorName === login ||
+    userType === UserType.admin ||
+    userType === UserType.moderator;
+
   return (
     <Wrapper>
       <Title>{title}</Title>
@@ -70,12 +78,12 @@ const FileCard: React.FC<Props> = ({
           href={
             process.env.NODE_ENV === 'development'
               ? `http://localhost:8000/api/files/file/${id}`
-              : `api/files/file/${id}`
+              : `${document.location.origin}/api/files/file/${id}`
           }
         >
           Pobierz
         </DownloadButton>
-        {authorName === login && (
+        {canDelete && (
           <DeleteButton aria-label="Delete File" onClick={handleDelete}>
             <DeleteIcon />
           </DeleteButton>

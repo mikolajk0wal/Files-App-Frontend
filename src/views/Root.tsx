@@ -8,6 +8,8 @@ const Login = React.lazy(() => import('./Login'));
 const FilesPage = React.lazy(() => import('./FilesPage'));
 const Register = React.lazy(() => import('./Register'));
 const NotFound = React.lazy(() => import('./NotFound'));
+const UsersPage = React.lazy(() => import('./UsersPage'));
+const UserPage = React.lazy(() => import('./UserPage'));
 
 const Root = () => {
   return (
@@ -22,11 +24,25 @@ const Root = () => {
               <Route path={['/pdf', '/img', '/pptx']}>
                 <FilesPage />
               </Route>
+              <Route exact path="/dashboard">
+                <Redirect to="/dashboard/pdf" />
+              </Route>
+              <Route
+                path={['/dashboard/pdf', '/dashboard/img', '/dashboard/pptx']}
+              >
+                <FilesPage dashboard />
+              </Route>
+              <Route exact path="/dashboard/users">
+                <UsersPage />
+              </Route>
               <Route path="/login">
                 <Login />
               </Route>
               <Route path="/register">
                 <Register />
+              </Route>
+              <Route path="/dashboard/users/:login">
+                <UserPage />
               </Route>
               <Route>
                 <NotFound />

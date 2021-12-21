@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   ErrorHeader,
   ErrorParagraph,
@@ -7,6 +7,9 @@ import {
 } from './NotFound.styles';
 
 const NotFound = () => {
+  useEffect(() => {
+    document.title = `Błąd 404 | Aplikacja do plików`;
+  }, []);
   return (
     <InfoWrapper>
       <ErrorHeader>Błąd 404</ErrorHeader>
