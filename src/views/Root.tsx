@@ -1,15 +1,15 @@
-import React, { Suspense } from 'react';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
-import PageTemplate from '../components/PageTemplate/PageTemplate';
-import UIProvider from '../context/UIContext';
-import CustomLoader from '../components/CustomLoader/CustomLoader';
+import React, { Suspense } from "react";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+import PageTemplate from "../components/PageTemplate/PageTemplate";
+import UIProvider from "../context/UIContext";
+import CustomLoader from "../components/CustomLoader/CustomLoader";
 
-const Login = React.lazy(() => import('./Login'));
-const FilesPage = React.lazy(() => import('./FilesPage'));
-const Register = React.lazy(() => import('./Register'));
-const NotFound = React.lazy(() => import('./NotFound'));
-const UsersPage = React.lazy(() => import('./UsersPage'));
-const UserPage = React.lazy(() => import('./UserPage'));
+const Login = React.lazy(() => import("./Login"));
+const FilesPage = React.lazy(() => import("./FilesPage"));
+const Register = React.lazy(() => import("./Register"));
+const NotFound = React.lazy(() => import("./NotFound"));
+const UsersPage = React.lazy(() => import("./UsersPage"));
+const UserPage = React.lazy(() => import("./UserPage"));
 
 const Root = () => {
   return (
@@ -21,14 +21,14 @@ const Root = () => {
               <Route exact path="/">
                 <Redirect to="/pdf" />
               </Route>
-              <Route path={['/pdf', '/img', '/pptx']}>
+              <Route path={["/pdf", "/img", "/other"]}>
                 <FilesPage />
               </Route>
               <Route exact path="/dashboard">
                 <Redirect to="/dashboard/pdf" />
               </Route>
               <Route
-                path={['/dashboard/pdf', '/dashboard/img', '/dashboard/pptx']}
+                path={["/dashboard/pdf", "/dashboard/img", "/dashboard/other"]}
               >
                 <FilesPage dashboard />
               </Route>

@@ -1,21 +1,22 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Button = styled.button`
-  font-size: 1.5rem;
-  color: #000;
-  background-color: #faff00;
+  font-size: 1.4rem;
+  color: ${({ theme }) => theme.primaryColor};
+  background-color: ${({ theme }) => theme.contrastColor};
+  border: 2px solid transparent;
   text-align: center;
   padding: 10px 50px;
   cursor: pointer;
-  border: none;
-  margin-top: 20px;
-  border-radius: 20px;
+  font-family: "Montserrat", sans-serif;
+  border-radius: 15px;
   font-weight: 600;
   outline: none;
-  transition: 0.3s background-color, color;
+  transition: 0.3s background-color, color, border-color;
   &:hover,
   &:focus {
-    color: #1d3557;
-    background-color: #e63946;
+    color: ${({ theme }) => theme.contrastColor};
+    background-color: ${({ theme }) => theme.primaryColor};
+    border-color: ${({ theme }) => theme.contrastColor};
   }
 `;

@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
-import dayjs from 'dayjs';
-import { FileType } from '../../types/FileType';
+import React, { useContext } from "react";
+import dayjs from "dayjs";
+import { FileType } from "../../types/FileType";
 import {
   ButtonsWrapper,
   DeleteButton,
@@ -9,13 +9,16 @@ import {
   Paragraph,
   Title,
   Wrapper,
-} from './FileCard.styles';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store';
-import useModal from '../../hooks/useModal';
-import { useDeleteFileMutation } from '../../services/files';
-import { UIContext } from '../../context/UIContext';
-import { UserType } from '../../enums/UserType';
+  EditButton,
+  EditIcon,
+} from "./FileCard.styles";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
+import useModal from "../../hooks/useModal";
+import { useDeleteFileMutation } from "../../services/files";
+import { UIContext } from "../../context/UIContext";
+import { UserType } from "../../enums/UserType";
+import { SearchFilters } from "../../views/FilesPage";
 
 interface Props {
   title: string;
@@ -24,6 +27,7 @@ interface Props {
   type: FileType;
   createdAt: string;
   id: string;
+  setSearchFilters?: React.Dispatch<React.SetStateAction<SearchFilters>>;
 }
 
 const FileCard: React.FC<Props> = ({
@@ -33,50 +37,85 @@ const FileCard: React.FC<Props> = ({
   createdAt,
   id,
   type,
+  setSearchFilters,
 }) => {
-  const { sortType } = useContext(UIContext);
+  const { sortType, editFileSidebar } = useContext(UIContext);
   const [deleteFile] = useDeleteFileMutation();
   const { login, type: userType } = useSelector(
     (state: RootState) => state.auth
   );
   const showModal = useModal();
+
   const handleDelete = async () => {
     const isConfirmed = await showModal(
-      'Czy napewno chcesz usunąć ten plik ?',
-      'question',
+      "Czy napewno chcesz usunąć ten plik ?",
+      "question",
       true
     );
     if (isConfirmed) {
       deleteFile({ id, sortType })
         .unwrap()
         .then(() => {
-          showModal('Usunięto plik', 'success', false);
+          showModal("Usunięto plik", "success", false);
         })
         .catch((err) => {
           const message = err?.data?.message
             ? err.data.message
-            : 'Błąd przy rejestracji';
-          showModal(message, 'error', false);
+            : "Błąd przy rejestracji";
+          showModal(message, "error", false);
         });
     }
   };
+
+  const handleEditButtonClick = () => {
+    editFileSidebar.setInitialData({ title, subject, fileId: id });
+    editFileSidebar.setOpened(true);
+  };
+
   const canDelete =
     authorName === login ||
     userType === UserType.admin ||
     userType === UserType.moderator;
 
+  const handleAuthorClick = (author: string) => () => {
+    if (setSearchFilters) {
+      setSearchFilters((prevState) => {
+        if (prevState.author === author) {
+          return { ...prevState, author: "" };
+        }
+        return { ...prevState, author };
+      });
+    }
+  };
+
+  const handleSubjectClick = (subject: string) => () => {
+    if (setSearchFilters) {
+      setSearchFilters((prevState) => {
+        if (prevState.subject === subject) {
+          return { ...prevState, subject: "" };
+        }
+        return { ...prevState, subject };
+      });
+    }
+  };
+
   return (
     <Wrapper>
       <Title>{title}</Title>
-      <Paragraph>Autor: {authorName}</Paragraph>
-      <Paragraph>Przedmiot: {subject}</Paragraph>
+      <Paragraph onClick={handleAuthorClick(authorName)} clickable>
+        Autor: {authorName}
+      </Paragraph>
+      <Paragraph onClick={handleSubjectClick(subject)} clickable>
+        Temat: {subject}
+      </Paragraph>
       <Paragraph>
-        Data Dodania: {dayjs(createdAt).format('DD/MM/YYYY')}
+        Data Dodania: {dayjs(createdAt).format("DD/MM/YYYY")}
       </Paragraph>
       <ButtonsWrapper>
         <DownloadButton
+          as="a"
           href={
-            process.env.NODE_ENV === 'development'
+            process.env.NODE_ENV === "development"
               ? `http://localhost:8000/api/files/file/${id}`
               : `${document.location.origin}/api/files/file/${id}`
           }
@@ -84,9 +123,14 @@ const FileCard: React.FC<Props> = ({
           Pobierz
         </DownloadButton>
         {canDelete && (
-          <DeleteButton aria-label="Delete File" onClick={handleDelete}>
-            <DeleteIcon />
-          </DeleteButton>
+          <>
+            <DeleteButton aria-label="Delete File" onClick={handleDelete}>
+              <DeleteIcon />
+            </DeleteButton>
+            <EditButton aria-label="Edit File" onClick={handleEditButtonClick}>
+              <EditIcon />
+            </EditButton>
+          </>
         )}
       </ButtonsWrapper>
     </Wrapper>

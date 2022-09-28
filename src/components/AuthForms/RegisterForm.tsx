@@ -1,20 +1,20 @@
-import React from 'react';
+import React from "react";
 import {
-  Button,
+  SubmitButton,
   FormWrapper,
   FormTitle,
   StyledInput,
   StyledNavLink,
   CentringWrapper,
-} from './AuthForms.styles';
+} from "./AuthForms.styles";
 
-import * as Yup from 'yup';
+import * as Yup from "yup";
 
-import { Formik, Field, Form, FormikHelpers, ErrorMessage } from 'formik';
-import { FormErrorMessage } from '../FormErrorMessage/FormErrorMessage';
+import { Formik, Field, Form, FormikHelpers, ErrorMessage } from "formik";
+import { FormErrorMessage } from "../FormErrorMessage/FormErrorMessage";
 
-import useModal from '../../hooks/useModal';
-import { useSignUpMutation } from '../../services/auth';
+import useModal from "../../hooks/useModal";
+import { useSignUpMutation } from "../../services/auth";
 
 interface Values {
   login: string;
@@ -24,16 +24,16 @@ interface Values {
 
 const RegisterSchema = Yup.object().shape({
   login: Yup.string()
-    .min(2, 'Login musi posiadać min. 2 znaki!')
-    .max(50, 'Login może posiadać max. 50 znaków!')
-    .required('Login jest wymagany'),
+    .min(2, "Login musi posiadać min. 2 znaki!")
+    .max(50, "Login może posiadać max. 50 znaków!")
+    .required("Login jest wymagany"),
   password: Yup.string()
-    .min(6, 'Hasło musi posiadać min. 6 znaków!')
-    .max(50, 'Hasło może posiadać max. 50 znaków!')
-    .required('Hasło jest wymagane'),
+    .min(6, "Hasło musi posiadać min. 6 znaków!")
+    .max(50, "Hasło może posiadać max. 50 znaków!")
+    .required("Hasło jest wymagane"),
   retypedPassword: Yup.string().oneOf(
-    [Yup.ref('password', undefined)],
-    'Hasła muszą się zgadzać'
+    [Yup.ref("password", undefined)],
+    "Hasła muszą się zgadzać"
   ),
 });
 
@@ -45,9 +45,9 @@ const RegisterForm = () => {
     <CentringWrapper>
       <Formik
         initialValues={{
-          login: '',
-          password: '',
-          retypedPassword: '',
+          login: "",
+          password: "",
+          retypedPassword: "",
         }}
         validationSchema={RegisterSchema}
         onSubmit={async (
@@ -58,17 +58,17 @@ const RegisterForm = () => {
             .unwrap()
             .then(() => {
               showModal(
-                'Zarejestrowano Pomyślnie! Od teraz możesz się zalogować',
-                'success',
+                "Zarejestrowano Pomyślnie! Od teraz możesz się zalogować",
+                "success",
                 false,
-                '/login'
+                "/login"
               );
             })
             .catch((err: any) => {
               const message = err?.data?.message
                 ? err.data.message
-                : 'Błąd przy rejestracji';
-              showModal(message, 'error', false);
+                : "Błąd przy rejestracji";
+              showModal(message, "error", false);
             });
         }}
       >
@@ -101,9 +101,9 @@ const RegisterForm = () => {
             />
             <ErrorMessage name="retypedPassword" component={FormErrorMessage} />
 
-            <Button type="submit" aria-label="Sign Up">
+            <SubmitButton type="submit" aria-label="Sign Up">
               Zarejestruj
-            </Button>
+            </SubmitButton>
             <StyledNavLink to="/login">Logowanie</StyledNavLink>
           </FormWrapper>
         </Form>

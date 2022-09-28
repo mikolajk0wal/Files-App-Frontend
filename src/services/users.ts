@@ -1,36 +1,42 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { UserType } from '../enums/UserType';
-import { SortType } from '../types/SortType';
-import { UserInterface } from '../types/User';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { UserType } from "../enums/UserType";
+import { SortType } from "../types/SortType";
+import { UserInterface } from "../types/User";
+import { FindFilesResponse } from "./files";
 
 interface UpdateUserDto {
   newRole: UserType;
   id: string;
 }
 
+export type FindUserWithFiles = {
+  filesData: FindFilesResponse;
+  user: UserInterface;
+};
+
 export const usersApi = createApi({
-  reducerPath: 'usersApi',
+  reducerPath: "usersApi",
   baseQuery: fetchBaseQuery({
     baseUrl:
-      process.env.NODE_ENV === 'development'
-        ? 'http://localhost:8000/api'
-        : '/api',
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:8000/api"
+        : "/api",
   }),
   endpoints: (builder) => ({
-    getUserByLogin: builder.query<UserInterface, string>({
-      query: (name: string) => `users/login/${name}`,
+    getUserByLogin: builder.query<FindUserWithFiles, string>({
+      query: (name: string) => `users/files/${name}`,
     }),
     getUsers: builder.query<UserInterface[], SortType>({
       query: (sortType: SortType) =>
-        `users${sortType ? `?sort=${sortType}` : ''} `,
+        `users${sortType ? `?sort=${sortType}` : ""} `,
       transformResponse: (data: any) => data.users,
     }),
     deleteUser: builder.mutation({
       query: (id: string) => {
-        const jwt = localStorage.getItem('jwt');
+        const jwt = localStorage.getItem("jwt");
         return {
           url: `/users/${id}`,
-          method: 'DELETE',
+          method: "DELETE",
           headers: {
             Authorization: `Bearer ${jwt}`,
           },
@@ -39,10 +45,10 @@ export const usersApi = createApi({
     }),
     updateUser: builder.mutation({
       query: ({ id, newRole }: UpdateUserDto) => {
-        const jwt = localStorage.getItem('jwt');
+        const jwt = localStorage.getItem("jwt");
         return {
           url: `/users/${id}`,
-          method: 'PATCH',
+          method: "PATCH",
           body: {
             type: newRole,
           },

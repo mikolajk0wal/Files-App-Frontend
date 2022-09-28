@@ -1,12 +1,13 @@
-import styled from 'styled-components';
-import { AddButton, AddIcon } from '../Nav/Nav.styles';
+import styled from "styled-components";
+import { AddButton, AddIcon } from "../Nav/Nav.styles";
+import { Button } from "../Button/Button";
 
 export const Title = styled.h3`
   font-size: 2rem;
-  color: #fff;
   text-align: center;
   padding: 50px 0;
   font-weight: 600;
+  color: ${({ theme }) => theme.contrastColor};
 `;
 
 interface FormProps {
@@ -23,7 +24,7 @@ export const FormWrapper = styled.div<FormProps>`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #20253b;
+  background-color: ${({ theme }) => theme.primaryColor};
   transition: 0.5s transform;
   @media (max-height: 600px) {
     height: 100vh;
@@ -39,17 +40,17 @@ export const FormWrapper = styled.div<FormProps>`
     height: 100vh;
   }
   ${(props) =>
-    props.opened ? `transform: translate(0px)` : `transform:translate(100%)`}
+    props.opened ? `transform: translate(0px)` : `transform:translate(200%)`}
 `;
 
 export const StyledInput = styled.input`
-  color: #14213d;
   font-size: 1.2rem;
   border: none;
   outline: none;
   margin: 20px;
   border-radius: 13px;
   padding: 15px;
+  background-color: #f0f3f8;
   min-width: 270px;
   @media (max-width: 570px) {
     width: 240px;
@@ -63,6 +64,11 @@ export const CloseButton = styled(AddButton)`
   }
   margin: 10px;
 `;
+
+export const EditCloseButton = styled(AddButton)`
+  margin: 10px;
+`;
+
 export const CloseIcon = styled(AddIcon)`
   color: #fff;
 `;
@@ -73,22 +79,7 @@ export const HeadingWrapper = styled.div`
   justify-content: center;
 `;
 
-export const selectStyles = {
-  menu: (provided: any, state: any) => ({
-    ...provided,
-    minWidth: 270,
-    fontSize: '1.2rem',
-    borderBottom: '1px dotted pink',
-    color: '#000',
-    cursort: 'pointer',
-    padding: 10,
-  }),
-  control: (provided: any, state: any) => ({
-    ...provided,
-    width: 270,
-    margin: '20px 0 30px',
-    fontSize: '1.2rem',
-    borderRadius: 15,
-    padding: '5px 10px',
-  }),
-};
+export const SubmitButton = styled(Button)`
+  margin-top: 20px;
+  border-radius: 20px;
+`;

@@ -1,18 +1,31 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
-import { FileInterface } from '../types/File';
-import { FileType } from '../types/FileType';
-import { SortType } from '../types/SortType';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
+import { FileInterface } from "../types/File";
+import { FileType } from "../types/FileType";
+import { SortType } from "../types/SortType";
 
 export const isFetchBaseQueryErrorType = (
   error: any
-): error is FetchBaseQueryError => 'status' in error;
+): error is FetchBaseQueryError => "status" in error;
+
+export interface FindFilesResponse {
+  files: FileInterface[];
+  count: number;
+  requiredPages: number;
+  page: number;
+}
 
 interface CreateFileDto {
   title: string;
   subject: string;
-  type: FileType;
   file: File;
+  sortType: SortType;
+}
+
+interface EditFileDto {
+  title: string;
+  subject: string;
+  id: string;
   sortType: SortType;
 }
 
@@ -21,60 +34,97 @@ interface DeleteFileDto {
   sortType: SortType;
 }
 
-interface GetFilesData {
+interface GetFilesDto {
   type: FileType;
   sortType: SortType;
+  author?: string;
+  subject?: string;
+  title?: string;
+  page?: number;
 }
 
 export const filesApi = createApi({
-  reducerPath: 'filesApi',
+  reducerPath: "filesApi",
   baseQuery: fetchBaseQuery({
     baseUrl:
-      process.env.NODE_ENV === 'development'
-        ? 'http://localhost:8000/api'
-        : '/api',
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:8000/api"
+        : "/api",
   }),
-  tagTypes: ['File'],
+  tagTypes: ["File"],
   endpoints: (builder) => ({
-    getFilesByType: builder.query<FileInterface[], GetFilesData>({
-      query: ({ type, sortType }) =>
-        `files/type/${type}${sortType ? `?sort=${sortType}` : ''} `,
-      providesTags: ['File'],
-      transformResponse: (data: any) => data.files,
+    getFilesByType: builder.query<FindFilesResponse, GetFilesDto>({
+      query: ({ type, sortType, subject, title, author, page }) =>
+        `files/type/${type}${sortType ? `?sort=${sortType}` : ""}${
+          subject ? `&subject=${subject}` : ""
+        }${title ? `&q=${title}` : ""}${author ? `&authorName=${author}` : ""}${
+          page ? `&page=${page}` : ""
+        }&per_page=6`,
+      providesTags: ["File"],
     }),
     addFile: builder.mutation({
-      query: ({ title, subject, type, file }: CreateFileDto) => {
-        const jwt = localStorage.getItem('jwt');
+      query: ({ title, subject, file }: CreateFileDto) => {
+        const jwt = localStorage.getItem("jwt");
         const formData = new FormData();
-        formData.append('title', title);
-        formData.append('subject', subject);
-        formData.append('type', type);
-        formData.append('file', file);
+        formData.append("title", title);
+        formData.append("subject", subject);
+        formData.append("file", file);
         return {
-          url: '/files',
-          method: 'POST',
+          url: "/files",
+          method: "POST",
           body: formData,
           headers: {
             Authorization: `Bearer ${jwt}`,
           },
         };
       },
+      invalidatesTags: ["File"],
       async onQueryStarted(
-        { type, sortType },
-        { dispatch, queryFulfilled, getCacheEntry, getState }
+        { sortType }: CreateFileDto,
+        { dispatch, queryFulfilled }
       ) {
         try {
           const { data: addedFile } = await queryFulfilled;
           dispatch(
             filesApi.util.updateQueryData(
-              'getFilesByType',
-              { type, sortType },
+              "getFilesByType",
+              { type: addedFile.type, sortType },
               (draft) => {
-                if (sortType === 'desc') {
-                  draft.unshift(addedFile);
+                if (sortType === "desc") {
+                  draft.files.unshift(addedFile);
                 } else {
-                  draft.push(addedFile);
+                  draft.files.push(addedFile);
                 }
+              }
+            )
+          );
+        } catch {}
+      },
+    }),
+    editFile: builder.mutation({
+      query: ({ subject, title, id }: EditFileDto) => {
+        const jwt = localStorage.getItem("jwt");
+        return {
+          url: `files/${id}`,
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+          body: { subject, title },
+        };
+      },
+      invalidatesTags: ["File"],
+      async onQueryStarted({ sortType }, { dispatch, queryFulfilled }) {
+        try {
+          const { data: editedFile } = await queryFulfilled;
+          dispatch(
+            filesApi.util.updateQueryData(
+              "getFilesByType",
+              { type: editedFile.type, sortType },
+              (draft) => {
+                const idS = draft.files.map((file) => file._id);
+                const index = idS.indexOf(editedFile._id);
+                draft.files[index] = editedFile;
               }
             )
           );
@@ -83,27 +133,28 @@ export const filesApi = createApi({
     }),
     deleteFile: builder.mutation({
       query: ({ id, sortType }: DeleteFileDto) => {
-        const jwt = localStorage.getItem('jwt');
+        const jwt = localStorage.getItem("jwt");
         return {
           url: `/files/${id}`,
-          method: 'DELETE',
+          method: "DELETE",
           headers: {
             Authorization: `Bearer ${jwt}`,
           },
         };
       },
-      // eslint-disable-next-line
+      invalidatesTags: ["File"],
+
       async onQueryStarted({ sortType }, { dispatch, queryFulfilled }) {
         try {
           const { data: deletedFile } = await queryFulfilled;
           dispatch(
             filesApi.util.updateQueryData(
-              'getFilesByType',
+              "getFilesByType",
               { type: deletedFile.type, sortType },
               (draft) => {
-                const idS = draft.map((file) => file._id);
+                const idS = draft.files.map((file) => file._id);
                 const index = idS.indexOf(deletedFile._id);
-                draft.splice(index, 1);
+                draft.files.splice(index, 1);
               }
             )
           );
@@ -117,4 +168,5 @@ export const {
   useGetFilesByTypeQuery,
   useAddFileMutation,
   useDeleteFileMutation,
+  useEditFileMutation,
 } = filesApi;

@@ -1,1 +1,1 @@
-export type FileType = 'pdf' | 'img' | 'pptx';
+export type FileType = "pdf" | "img" | "other";

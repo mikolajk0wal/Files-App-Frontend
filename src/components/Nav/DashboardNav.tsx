@@ -1,40 +1,40 @@
-import React from 'react';
-import { Redirect } from 'react-router';
-import { UserType } from '../../enums/UserType';
-import { useCheckMeQuery } from '../../services/auth';
+import React from "react";
+import { Redirect } from "react-router";
+import { UserType } from "../../enums/UserType";
+import { useCheckMeQuery } from "../../services/auth";
 import {
   DashboardNavigation,
   StyledNavLink,
   PdfIcon,
   Paragraph,
   ImgIcon,
-  PptxIcon,
+  OtherIcon,
   UserIcon,
   StyledBackLink,
   GoBackIcon,
-} from './DashboardNav.styles';
+} from "./DashboardNav.styles";
 
 const DashboardNav = () => {
-  const jwt = localStorage.getItem('jwt');
+  const jwt = localStorage.getItem("jwt");
   const { data, isLoading } = useCheckMeQuery(jwt);
   if (!isLoading) {
     return data?.type === UserType.admin ? (
       <DashboardNavigation>
         <StyledNavLink to="/dashboard/pdf" activeClassName="active">
           <PdfIcon alt="PDF ICON" />
-          <Paragraph>PDF FILES</Paragraph>
+          <Paragraph>PLIKI PDF</Paragraph>
         </StyledNavLink>
         <StyledNavLink to="/dashboard/img" activeClassName="active">
           <ImgIcon alt="IMG ICON" />
-          <Paragraph>IMG FILES</Paragraph>
+          <Paragraph>PLIKI IMG</Paragraph>
         </StyledNavLink>
-        <StyledNavLink to="/dashboard/pptx" activeClassName="active">
-          <PptxIcon alt="PPTX ICON" />
-          <Paragraph>PPTX FILES</Paragraph>
+        <StyledNavLink to="/dashboard/other" activeClassName="active">
+          <OtherIcon alt="Other ICON" />
+          <Paragraph>INNE PLIKI</Paragraph>
         </StyledNavLink>
         <StyledNavLink to="/dashboard/users" activeClassName="active">
           <UserIcon alt="USERS ICON" />
-          <Paragraph>USERS</Paragraph>
+          <Paragraph>UŻYTKOWNICY</Paragraph>
         </StyledNavLink>
         <StyledBackLink to="/" exact activeClassName="active">
           <GoBackIcon alt="USERS ICON" />

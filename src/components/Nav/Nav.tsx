@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Route, useLocation } from 'react-router';
-import { UIContext } from '../../context/UIContext';
-import { logout } from '../../slices/authSlice';
-import { RootState } from '../../store';
-import useModal from '../../hooks/useModal';
+import React, { useContext } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Route, useLocation } from "react-router";
+import { UIContext } from "../../context/UIContext";
+import { logout } from "../../slices/authSlice";
+import { RootState } from "../../store";
+import useModal from "../../hooks/useModal";
 import {
   LoginNavLink,
   ImgIcon,
@@ -14,14 +14,27 @@ import {
   Navigation,
   StyledNavLink,
   PdfIcon,
-  PptxIcon,
   AddIcon,
   AddButton,
-} from './Nav.styles';
+  SwitchWrapper,
+  SunIcon,
+  SearchIcon,
+  MoonIcon,
+  SearchButton,
+  OtherIcon,
+} from "./Nav.styles";
+import Switch from "react-switch";
 
 const Nav: React.FC = () => {
-  const { addFileSidebarOpened, openAddFileSidebar, closeAddFileSidebar } =
-    useContext(UIContext);
+  const {
+    addFileSidebarOpened,
+    openAddFileSidebar,
+    closeAddFileSidebar,
+    setFilterBarOpened,
+    filterBarOpened,
+    theme,
+    toggleTheme,
+  } = useContext(UIContext);
 
   const { userId } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
@@ -32,18 +45,26 @@ const Nav: React.FC = () => {
 
   const handleLogout = async () => {
     const isConfirmed = await showModal(
-      'Czy napewno chcesz się wylogować ?',
-      'question',
+      "Czy napewno chcesz się wylogować ?",
+      "question",
       true
     );
     if (isConfirmed) {
       dispatch(logout());
-      showModal('Wylogowano pomyślnie', 'success', false, '/login');
+      showModal("Wylogowano pomyślnie", "success", false, "/login");
     }
   };
-
+  //@TODO Responsywność naprawić, głównie filterBar i menu
   return (
     <Navigation>
+      <SwitchWrapper>
+        <Switch
+          checked={theme === "dark"}
+          onChange={toggleTheme}
+          checkedIcon={<MoonIcon style={{ margin: 6 }} />}
+          uncheckedIcon={<SunIcon style={{ margin: 6 }} />}
+        />
+      </SwitchWrapper>
       <StyledNavLink aria-label="PDF Files" to="/pdf" activeClassName="active">
         <PdfIcon alt="PDF Icon" />
       </StyledNavLink>
@@ -52,14 +73,14 @@ const Nav: React.FC = () => {
       </StyledNavLink>
       <StyledNavLink
         aria-label="PPTX Files"
-        to="/pptx"
+        to="/other"
         activeClassName="active"
       >
-        <PptxIcon alt="PPTX Icon" />
+        <OtherIcon alt="Other Icon" />
       </StyledNavLink>
 
-      {userId && (
-        <Route path={['/pdf', '/img', '/pptx']}>
+      <Route path={["/pdf", "/img", "/other"]}>
+        {userId && (
           <AddButton
             aria-label="Open Sidebar"
             clicked={addFileSidebarOpened}
@@ -69,8 +90,15 @@ const Nav: React.FC = () => {
           >
             <AddIcon alt="Add Icon" />
           </AddButton>
-        </Route>
-      )}
+        )}
+        <SearchButton
+          clicked={filterBarOpened}
+          onClick={() => setFilterBarOpened((prevState: any) => !prevState)}
+        >
+          <SearchIcon alt="Search Icon" />
+        </SearchButton>
+      </Route>
+
       {userId ? (
         <LogoutButton aria-label="Sign Out" onClick={handleLogout}>
           <LogoutIcon alt="Logout Icon" />
@@ -80,7 +108,7 @@ const Nav: React.FC = () => {
           aria-label="Sign In"
           to="/login"
           activeClassName="active"
-          isActive={() => ['/login', '/register'].includes(pathname)}
+          isActive={() => ["/login", "/register"].includes(pathname)}
         >
           <LoginIcon alt="Login Icon" />
         </LoginNavLink>

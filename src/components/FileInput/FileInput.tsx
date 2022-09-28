@@ -1,13 +1,12 @@
-import React, { useRef, ChangeEvent, Dispatch, SetStateAction } from 'react';
-import { Label, StyledFileInput } from './FileInput.styles';
+import React, { useRef, ChangeEvent, Dispatch, SetStateAction } from "react";
+import { Label, StyledFileInput } from "./FileInput.styles";
 
 interface Props {
-  accept: string;
   setFile: Dispatch<SetStateAction<File | null>>;
   file: File | null;
 }
 
-const FileInput: React.FC<Props> = ({ accept, setFile, file }) => {
+const FileInput: React.FC<Props> = ({ setFile, file }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
@@ -25,10 +24,9 @@ const FileInput: React.FC<Props> = ({ accept, setFile, file }) => {
         onChange={handleChange}
         id="file"
         name="file"
-        accept={accept}
       />
       <Label htmlFor="file">
-        {file?.name ? `Załączony plik: ${file.name}` : 'Nie załączono pliku'}
+        {file?.name ? `Załączony plik: ${file.name}` : "Nie załączono pliku"}
       </Label>
     </>
   );

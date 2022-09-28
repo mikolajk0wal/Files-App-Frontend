@@ -1,18 +1,20 @@
-import { NavLink } from 'react-router-dom';
-import { MdImage } from 'react-icons/md';
-import { FiLogIn, FiLogOut } from 'react-icons/fi';
-import { VscFilePdf } from 'react-icons/vsc';
-import { IoMdAddCircle } from 'react-icons/io';
+import { NavLink } from "react-router-dom";
+import { MdImage } from "react-icons/md";
+import { FiLogIn, FiLogOut } from "react-icons/fi";
+import { VscFilePdf } from "react-icons/vsc";
+import { IoMdAddCircle } from "react-icons/io";
+import { BsFillMoonFill, BsSunFill } from "react-icons/bs";
+import { AiOutlineSearch, AiFillFolder } from "react-icons/ai";
 
-import { HiPresentationChartLine } from 'react-icons/hi';
+import { HiPresentationChartLine } from "react-icons/hi";
 
-import styled, { css } from 'styled-components';
+import styled, { css } from "styled-components";
 
 interface NavLinkProps {
   activeClassName: string;
 }
 
-interface AddButtonProps {
+interface ActionButtonProps {
   clicked: boolean;
 }
 
@@ -21,7 +23,7 @@ interface IconProps {
 }
 
 export const Navigation = styled.nav`
-  background-color: #fff;
+  background-color: ${({ theme }) => theme.primaryColor};
   position: fixed;
   left: 0;
   z-index: 5;
@@ -31,6 +33,7 @@ export const Navigation = styled.nav`
   height: 100%;
   display: flex;
   flex-direction: column;
+  border-right: 2px solid #5c63db;
   @media (max-width: 650px) {
     width: 100%;
     height: 100px;
@@ -38,10 +41,12 @@ export const Navigation = styled.nav`
     justify-content: center;
     align-items: center;
     flex-direction: row;
+    border-bottom: 2px solid #5c63db;
+    border-right: none;
   }
-  @media (max-width: 335px) {
+  @media (max-width: 430px) {
     flex-wrap: wrap;
-    /* height: 200px; */
+    height: 200px;
   }
 `;
 
@@ -69,23 +74,23 @@ export const LogoutButton = styled.button`
   ${buttonCss}
 `;
 
-export const AddButton = styled.button<AddButtonProps>`
+export const AddButton = styled.button<ActionButtonProps>`
   ${navItemCss}
   ${buttonCss}
   transition: .3s transform;
-  ${(props) => (props.clicked ? `transform: rotate(45deg)` : '')}
+  ${(props) => (props.clicked ? `transform: rotate(45deg)` : "")}
 `;
 
 export const StyledNavLink = styled(NavLink)<NavLinkProps>`
-  ${navItemCss}
-  margin:5px;
+  ${navItemCss};
+  margin: 5px;
   @media (max-width: 500px) {
     margin: 0;
   }
   &.${(props) => props.activeClassName} {
     & > svg {
-      color: white;
-      background-color: #20253b;
+      color: ${({ theme }) => theme.primaryColor};
+      background-color: ${({ theme }) => theme.contrastColor};
     }
   }
 `;
@@ -94,7 +99,6 @@ export const LoginNavLink = styled(StyledNavLink)`
   margin-top: auto;
   @media (max-width: 650px) {
     margin-top: 0;
-    margin-left: auto;
   }
 `;
 
@@ -106,22 +110,53 @@ const IconStyles = css`
   border-radius: 17px;
   height: 75px;
   margin: 10px;
-  @media (max-width: 485px) {
+  @media (max-width: 650px) {
     width: 60px;
     height: 60px;
     border-radius: 13.5px;
+    margin: 5px;
   }
-  @media (max-width: 360px) {
+  @media (max-width: 530px) {
     width: 50px;
     height: 50px;
-    margin: 5px;
-    border-radius: 12.5px;
-  }
-  @media (max-width: 340px) {
-    width: 45px;
-    height: 45px;
     border-radius: 12px;
   }
+`;
+
+export const SearchButton = styled.button<ActionButtonProps>`
+  ${navItemCss}
+  ${buttonCss}
+  display:none;
+  & > svg {
+    transition: 0.3s transform;
+    background-color: ${({ theme, clicked }) =>
+      clicked ? theme.contrastColor : theme.primaryColor};
+    color: ${({ theme, clicked }) =>
+      clicked ? theme.primaryColor : "#9da8be;"};
+    ${({ clicked }) => (clicked ? "transform: scaleX(-1);" : "")}
+  }
+  @media (max-width: 1150px) {
+    display: flex;
+  }
+`;
+
+export const SwitchWrapper = styled.div`
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @media (max-width: 650px) {
+    margin-bottom: 0;
+  }
+`;
+
+export const MoonIcon = styled(BsFillMoonFill)`
+  color: #fff;
+  margin: 10px;
+`;
+export const SunIcon = styled(BsSunFill)`
+  color: #fff;
+  margin: 10px;
 `;
 
 export const PdfIcon = styled(VscFilePdf)<IconProps>`
@@ -136,11 +171,11 @@ export const PptxIcon = styled(HiPresentationChartLine)<IconProps>`
   ${IconStyles}
 `;
 
-export const LoginIcon = styled(FiLogIn)<IconProps>`
+export const OtherIcon = styled(AiFillFolder)<IconProps>`
   ${IconStyles}
 `;
 
-export const RegisterIcon = styled(HiPresentationChartLine)<IconProps>`
+export const LoginIcon = styled(FiLogIn)<IconProps>`
   ${IconStyles}
 `;
 
@@ -149,5 +184,9 @@ export const LogoutIcon = styled(FiLogOut)<IconProps>`
 `;
 
 export const AddIcon = styled(IoMdAddCircle)<IconProps>`
+  ${IconStyles}
+`;
+
+export const SearchIcon = styled(AiOutlineSearch)<IconProps>`
   ${IconStyles}
 `;

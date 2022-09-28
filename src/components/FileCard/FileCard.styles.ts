@@ -1,27 +1,32 @@
-import { MdDelete } from 'react-icons/md';
-import styled from 'styled-components';
+import { MdDelete, MdEdit } from "react-icons/md";
+import styled, { css } from "styled-components";
+import { Button } from "../Button/Button";
 
 export const Wrapper = styled.article`
   width: 340px;
-  min-height: 250px;
-  background-color: #fff;
+  min-height: 280px;
+  background-color: ${({ theme }) => theme.primaryColor};
   border-radius: 45px;
   display: flex;
   margin: 30px;
   flex-direction: column;
   padding: 20px;
   align-items: center;
+  justify-content: center;
   @media (max-width: 1050px) {
     margin: 15px;
-    width: 270px;
+    width: 300px;
     min-height: 230px;
   }
   @media (max-width: 850px) {
-    width: 70%;
-    max-width: 350px;
-    min-width: 315px;
+    width: 85%;
+    max-width: 340px;
     justify-content: center;
-    min-height: 300px;
+    min-height: 280px;
+  }
+  @media (max-width: 350px) {
+    padding: 25px;
+    margin: 30px 0;
   }
 `;
 
@@ -30,7 +35,7 @@ export const CardsWrapper = styled.section`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 50px;
+  //margin-top: 50px;
 
   align-items: center;
 `;
@@ -44,15 +49,16 @@ export const LoaderWrapper = styled.section`
 
 export const Title = styled.h2`
   font-size: 1.5rem;
-  color: #000;
+  color: ${({ theme }) => theme.contrastColor};
   padding: 10px;
   text-align: center;
 `;
 
-export const Paragraph = styled.p`
+export const Paragraph = styled.p<{ clickable?: boolean }>`
+  ${({ clickable }) => (clickable ? "cursor:pointer;" : "")};
   font-size: 1rem;
   padding: 5px;
-  color: #14213d;
+  color: ${({ theme }) => theme.cardParagraphColor};
   font-weight: 500;
   text-align: center;
 `;
@@ -60,50 +66,64 @@ export const Paragraph = styled.p`
 export const ButtonsWrapper = styled.div`
   display: flex;
   justify-content: space-around;
-  align-items: center;
+  margin-top: auto;
 `;
 
-export const DeleteButton = styled.button`
+const iconStyles = css`
+  font-size: 2.5rem;
+  color: ${({ theme }) => theme.primaryColor};
+  border-radius: 15px;
+  background-color: ${({ theme }) => theme.contrastColor};
+  transition: 0.3s background-color, color, border-color;
+  border: 2px solid transparent;
+  padding: 5px;
+  &:hover {
+    background-color: ${({ theme }) => theme.primaryColor};
+    color: ${({ theme }) => theme.contrastColor};
+    border-color: ${({ theme }) => theme.contrastColor};
+  }
+`;
+
+const buttonStyles = css`
   background: none;
   border: none;
   cursor: pointer;
   margin: 10px;
+  @media (max-width: 1050px) {
+    margin: 5px;
+  }
+`;
+
+export const DeleteButton = styled.button`
+  ${buttonStyles}
 `;
 
 export const DeleteIcon = styled(MdDelete)`
-  font-size: 2.5rem;
-  color: #d62828;
-  border-radius: 15px;
-  background-color: #fcbf49;
-  border: 2px solid #003049;
-  transition: 0.3s background-color, color;
-  padding: 5px;
-  &:hover {
-    background-color: #d62828;
-    color: #fcbf49;
-  }
+  ${iconStyles}
 `;
 
-export const DownloadButton = styled.a`
-  background-color: #20253b;
-  color: #fff;
+export const EditButton = styled.button`
+  ${buttonStyles}
+`;
+
+export const EditIcon = styled(MdEdit)`
+  ${iconStyles}
+`;
+
+export const DownloadButton = styled(Button)`
   padding: 10px 30px;
   margin: 15px;
-  border-radius: 30px;
+  border-radius: 20px;
   text-decoration: none;
-  font-weight: 600;
-  font-size: 1.5rem;
-  cursor: pointer;
-  transition: 0.3s background-color, color;
-  &:hover,
-  &:focus {
-    background-color: #f0f3f8;
-    color: #20253b;
-  }
+
   @media (max-width: 1050px) {
     font-size: 1.2rem;
   }
   @media (max-width: 850px) {
     font-size: 1.5rem;
+  }
+  @media (max-width: 350px) {
+    font-size: 1.3rem;
+    padding: 10px 20px;
   }
 `;

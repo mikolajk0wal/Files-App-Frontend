@@ -1,9 +1,9 @@
-import { HiPresentationChartLine } from 'react-icons/hi';
-import { FaUserCircle } from 'react-icons/fa';
-import { MdImage, MdOutlineKeyboardBackspace } from 'react-icons/md';
-import { VscFilePdf } from 'react-icons/vsc';
-import { NavLink } from 'react-router-dom';
-import styled, { css } from 'styled-components';
+import { FaUserCircle } from "react-icons/fa";
+import { MdImage, MdOutlineKeyboardBackspace } from "react-icons/md";
+import { VscFilePdf } from "react-icons/vsc";
+import { NavLink } from "react-router-dom";
+import styled, { css } from "styled-components";
+import { AiFillFolder } from "react-icons/ai";
 
 interface NavLinkProps {
   activeClassName: string;
@@ -37,7 +37,7 @@ const IconStyles = css`
 `;
 
 export const DashboardNavigation = styled.nav`
-  background-color: #fff;
+  background-color: ${({ theme }) => theme.primaryColor};
   position: fixed;
   left: 0;
   z-index: 5;
@@ -73,13 +73,19 @@ export const StyledNavLink = styled(NavLink)<NavLinkProps>`
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  & > svg {
+    color: ${({ theme }) => theme.contrastColor};
+  }
+  & > p {
+    color: ${({ theme }) => theme.contrastColor};
+  }
   &.${(props) => props.activeClassName} {
-    background-color: #191919;
+    background-color: ${({ theme }) => theme.contrastColor};
     & > svg {
-      color: white;
+      color: ${({ theme }) => theme.primaryColor};
     }
     & > p {
-      color: white;
+      color: ${({ theme }) => theme.primaryColor};
     }
   }
   @media (max-width: 650px) {
@@ -115,7 +121,7 @@ export const ImgIcon = styled(MdImage)<IconProps>`
   ${IconStyles}
 `;
 
-export const PptxIcon = styled(HiPresentationChartLine)<IconProps>`
+export const OtherIcon = styled(AiFillFolder)<IconProps>`
   ${IconStyles}
 `;
 
