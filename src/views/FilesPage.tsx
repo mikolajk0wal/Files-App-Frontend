@@ -125,7 +125,6 @@ const FilesPage: React.FC<Props> = ({ dashboard }) => {
   } else if (isLoading) {
     content = <CustomLoader />;
   } else if (data && !isLoading) {
-    // @TODO Zrobić żeby jak najmniej ANY BYŁo
     const { files, requiredPages } = data;
 
     content = (

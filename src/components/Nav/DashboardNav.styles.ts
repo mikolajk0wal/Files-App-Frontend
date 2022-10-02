@@ -4,6 +4,7 @@ import { VscFilePdf } from "react-icons/vsc";
 import { NavLink } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { AiFillFolder } from "react-icons/ai";
+import { SearchButton } from "./Nav.styles";
 
 interface NavLinkProps {
   activeClassName: string;
@@ -26,7 +27,7 @@ const IconStyles = css`
     height: 60px;
     margin: 0;
   }
-  @media (max-width: 385px) {
+  @media (max-width: 500px) {
     width: 45px;
     height: 45px;
   }
@@ -48,10 +49,12 @@ export const DashboardNavigation = styled.nav`
   display: flex;
   flex-direction: column;
   align-items: center;
+  border-right: 2px solid #5c63db;
   @media (max-width: 650px) {
+    border-right: none;
+    border-bottom: 2px solid #5c63db;
     width: 100%;
     height: 100px;
-    padding: 0;
     padding: 10px;
     justify-content: center;
     align-items: center;
@@ -59,7 +62,6 @@ export const DashboardNavigation = styled.nav`
   }
   @media (max-width: 335px) {
     flex-wrap: wrap;
-    /* height: 150px; */
   }
 `;
 
@@ -92,6 +94,9 @@ export const StyledNavLink = styled(NavLink)<NavLinkProps>`
     width: auto;
     justify-content: center;
   }
+  @media (max-width: 500px) {
+    margin: 5px;
+  }
 `;
 
 export const StyledBackLink = styled(StyledNavLink)`
@@ -110,6 +115,13 @@ export const Paragraph = styled.p`
   font-weight: 500;
   @media (max-width: 650px) {
     display: none;
+  }
+`;
+
+export const StyledSearchButton = styled(SearchButton)`
+  margin: 20px;
+  @media (max-width: 500px) {
+    margin: 5px;
   }
 `;
 

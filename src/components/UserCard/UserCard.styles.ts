@@ -1,8 +1,8 @@
-import { FaUserCircle } from 'react-icons/fa';
-import { AiFillTool } from 'react-icons/ai';
-import styled, { css } from 'styled-components';
-import { UserType } from '../../enums/UserType';
-import { Link } from 'react-router-dom';
+import { FaUserCircle } from "react-icons/fa";
+import { AiFillTool } from "react-icons/ai";
+import styled, { css } from "styled-components";
+import { UserType } from "../../enums/UserType";
+import { Link } from "react-router-dom";
 
 interface Props {
   usertype: UserType;
@@ -10,13 +10,11 @@ interface Props {
 
 export const Wrapper = styled(Link)<Props>`
   width: 300px;
-  border: 4px solid
-    ${({ usertype }) =>
-      usertype === UserType.moderator ? '#06D6A0' : '#073b4c'};
+  border: 3px solid ${({ theme }) => theme.contrastColor};
   padding: 20px;
   border-radius: 20px;
   text-decoration: none;
-  background-color: #ffffff;
+  background-color: ${({ theme }) => theme.primaryColor};
   margin: 20px;
   display: flex;
   align-items: center;
@@ -34,8 +32,7 @@ export const Name = styled.h4`
 `;
 
 export const UserTypeInfo = styled.p<Props>`
-  color: ${({ usertype }) =>
-    usertype === UserType.moderator ? '#06D6A0' : '#073b4c'};
+  color: ${({ theme }) => theme.contrastColor};
   font-size: 1.4rem;
   font-weight: 600;
   margin: 10px 0;
@@ -52,7 +49,7 @@ const IconStyles = css`
 `;
 
 export const UserIcon = styled(FaUserCircle)`
-  ${IconStyles}
+  ${IconStyles};
   background-color: #20253b;
   color: #fff;
   border-radius: 37.5px;
@@ -60,6 +57,6 @@ export const UserIcon = styled(FaUserCircle)`
 `;
 
 export const AdminIcon = styled(AiFillTool)`
-  ${IconStyles}
-  color:#20253B;
+  ${IconStyles};
+  color: ${({ theme }) => theme.contrastColor};
 `;

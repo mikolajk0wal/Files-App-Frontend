@@ -26,7 +26,7 @@ export const Wrapper = styled.form<Props>`
     height: 100vh;
     position: fixed;
     top: 0;
-    left: 0;
+    left: ${({ dashboard }) => (dashboard ? "140px" : "0")};
     z-index: 3;
     transition: 0.3s transform;
     transform: translateX(${({ opened }) => (opened ? "160px" : "-300px")});
@@ -38,12 +38,13 @@ export const Wrapper = styled.form<Props>`
   }
   @media (max-width: 650px) {
     transform: translateX(${({ opened }) => (opened ? "0" : "-500px")});
+    left: 0;
     top: 100px;
     border-left: none;
     border-right: 2px solid #5c63db;
   }
   @media (max-width: 430px) {
-    top: 200px;
+    top: ${({ dashboard }) => (dashboard ? "100px" : "200px")};
   }
 `;
 

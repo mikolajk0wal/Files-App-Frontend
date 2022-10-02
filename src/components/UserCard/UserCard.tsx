@@ -1,5 +1,5 @@
-import React from 'react';
-import { UserType } from '../../enums/UserType';
+import React from "react";
+import { UserType } from "../../enums/UserType";
 import {
   AdminIcon,
   InfoWrapper,
@@ -7,7 +7,7 @@ import {
   UserIcon,
   UserTypeInfo,
   Wrapper,
-} from './UserCard.styles';
+} from "./UserCard.styles";
 
 interface Props {
   type: UserType;
@@ -17,7 +17,11 @@ interface Props {
 const UserCard: React.FC<Props> = ({ name, type }) => {
   return (
     <Wrapper to={`/dashboard/users/${name}`} usertype={type}>
-      {type === UserType.moderator ? <AdminIcon /> : <UserIcon />}
+      {type === UserType.moderator || type === UserType.admin ? (
+        <AdminIcon />
+      ) : (
+        <UserIcon />
+      )}
       <InfoWrapper>
         <Name>{name}</Name>
         <UserTypeInfo usertype={type}>{type}</UserTypeInfo>

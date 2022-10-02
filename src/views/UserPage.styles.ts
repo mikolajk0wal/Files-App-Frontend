@@ -1,14 +1,13 @@
-import { FaUserCircle } from 'react-icons/fa';
-import styled from 'styled-components';
+import { FaUserCircle } from "react-icons/fa";
+import styled from "styled-components";
 
 export const UserIcon = styled(FaUserCircle)`
   width: 130px;
   height: 130px;
-  background-color: #20253b;
-  color: #f0f3f8;
+  background-color: ${({ theme }) => theme.primaryColor};
+  color: ${({ theme }) => theme.contrastColor};
   border-radius: 65px;
   margin: 20px;
-  border: 4px solid #20253b;
 `;
 
 export const DeleteButton = styled.button`
@@ -17,7 +16,7 @@ export const DeleteButton = styled.button`
   border: none;
   font-size: 1.5rem;
   margin: 30px;
-  font-family: 'Montserrat';
+  font-family: "Montserrat", sans-serif;
   font-weight: 600;
   padding: 20px 50px;
   cursor: pointer;
@@ -35,7 +34,7 @@ export const ChangePermissionsButton = styled.button`
   border: none;
   font-size: 1.5rem;
   margin: 0px;
-  font-family: 'Montserrat';
+  font-family: "Montserrat", sans-serif;
   font-weight: 600;
   padding: 20px 50px;
   cursor: pointer;
@@ -49,6 +48,7 @@ export const ChangePermissionsButton = styled.button`
 export const Name = styled.h1`
   font-size: 3rem;
   font-weight: 600;
+  color: ${({ theme }) => theme.contrastColor};
 `;
 
 export const CreatedInfo = styled.h4`
@@ -56,6 +56,7 @@ export const CreatedInfo = styled.h4`
   margin: 10px 0;
   font-weight: 600;
   text-align: center;
+  color: ${({ theme }) => theme.contrastColor};
 `;
 
 export const InfoWrapper = styled.section`

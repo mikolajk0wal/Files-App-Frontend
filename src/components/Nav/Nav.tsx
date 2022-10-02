@@ -54,7 +54,6 @@ const Nav: React.FC = () => {
       showModal("Wylogowano pomyślnie", "success", false, "/login");
     }
   };
-  //@TODO Responsywność naprawić, głównie filterBar i menu
   return (
     <Navigation>
       <SwitchWrapper>

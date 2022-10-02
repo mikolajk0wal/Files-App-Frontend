@@ -30,7 +30,7 @@ const UserPage = () => {
   const user = data?.user;
   const filesData = data?.filesData;
 
-  console.log(data);
+  console.log(filesData);
   const showModal = useModal();
   const errorData =
     error && isFetchBaseQueryErrorType(error) ? (error.data as ApiError) : null;
@@ -46,6 +46,9 @@ const UserPage = () => {
 
   const isModerator = user?.type === UserType.moderator;
   const isAdmin = user?.type === UserType.admin;
+
+  //@TODO Pagination bar i filterbar przy plikach danego user'a
+  //@TODO Not found error component
 
   const handleDeleteButton = async () => {
     if (user) {
@@ -99,7 +102,6 @@ const UserPage = () => {
             );
           })
           .catch((err) => {
-            console.log(err);
             const message = err?.data?.message
               ? err.data.message
               : "Błąd przy zmienianiu uprawnień";
@@ -148,22 +150,24 @@ const UserPage = () => {
             </ChangePermissionsButton>
           )}
         </InfoWrapper>
-        {filesData?.files ? (
-          <CardsWrapper>
-            {filesData.files.map(
-              ({ _id, authorName, createdAt, subject, title, type }) => (
-                <FileCard
-                  key={_id}
-                  id={_id}
-                  authorName={authorName}
-                  createdAt={createdAt}
-                  subject={subject}
-                  title={title}
-                  type={type}
-                />
-              )
-            )}
-          </CardsWrapper>
+        {filesData?.files.length ? (
+          <>
+            <CardsWrapper>
+              {filesData.files.map(
+                ({ _id, authorName, createdAt, subject, title, type }) => (
+                  <FileCard
+                    key={_id}
+                    id={_id}
+                    authorName={authorName}
+                    createdAt={createdAt}
+                    subject={subject}
+                    title={title}
+                    type={type}
+                  />
+                )
+              )}
+            </CardsWrapper>
+          </>
         ) : (
           <h1>Not found files</h1>
         )}

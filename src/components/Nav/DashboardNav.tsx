@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Redirect } from "react-router";
 import { UserType } from "../../enums/UserType";
 import { useCheckMeQuery } from "../../services/auth";
@@ -12,11 +12,15 @@ import {
   UserIcon,
   StyledBackLink,
   GoBackIcon,
+  StyledSearchButton,
 } from "./DashboardNav.styles";
+import { SearchButton, SearchIcon } from "./Nav.styles";
+import { UIContext } from "../../context/UIContext";
 
 const DashboardNav = () => {
   const jwt = localStorage.getItem("jwt");
   const { data, isLoading } = useCheckMeQuery(jwt);
+  const { filterBarOpened, setFilterBarOpened } = useContext(UIContext);
   if (!isLoading) {
     return data?.type === UserType.admin ? (
       <DashboardNavigation>
@@ -36,6 +40,12 @@ const DashboardNav = () => {
           <UserIcon alt="USERS ICON" />
           <Paragraph>UŻYTKOWNICY</Paragraph>
         </StyledNavLink>
+        <StyledSearchButton
+          clicked={filterBarOpened}
+          onClick={() => setFilterBarOpened((prevState: any) => !prevState)}
+        >
+          <SearchIcon alt="Search Icon" />
+        </StyledSearchButton>
         <StyledBackLink to="/" exact activeClassName="active">
           <GoBackIcon alt="USERS ICON" />
           <Paragraph>Powrót</Paragraph>

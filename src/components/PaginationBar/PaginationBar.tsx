@@ -1,8 +1,6 @@
 import { PaginationItem, Wrapper } from "./PaginationBar.styles";
 import { generatePaginationItems } from "../../utils/generatePaginationItems";
 
-//@TODO Paginacja (Po kliknięciu na guzik, zmieniam searchDTO ustawiając stronę i rtk refetchuje i chita działa B))))) )
-
 interface Props {
   requiredPages: number;
   currentPage?: number;
