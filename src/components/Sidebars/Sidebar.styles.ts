@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { AddButton, AddIcon } from "../Nav/Nav.styles";
 import { Button } from "../Button/Button";
+import { Input } from "../Input/Input";
 
 export const Title = styled.h3`
   font-size: 2rem;
@@ -43,14 +44,9 @@ export const FormWrapper = styled.div<FormProps>`
     props.opened ? `transform: translate(0px)` : `transform:translate(200%)`}
 `;
 
-export const StyledInput = styled.input`
-  font-size: 1.2rem;
-  border: none;
-  outline: none;
+export const StyledInput = styled(Input)`
   margin: 20px;
-  border-radius: 13px;
   padding: 15px;
-  background-color: #f0f3f8;
   min-width: 270px;
   @media (max-width: 570px) {
     width: 240px;
@@ -70,7 +66,7 @@ export const EditCloseButton = styled(AddButton)`
 `;
 
 export const CloseIcon = styled(AddIcon)`
-  color: #fff;
+  color: ${({ theme }) => theme.contrastColor};
 `;
 
 export const HeadingWrapper = styled.div`

@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { Button } from "../Button/Button";
+import { Input } from "../Input/Input";
 
 export const CentringWrapper = styled.section`
   display: flex;
@@ -32,16 +33,9 @@ export const FormWrapper = styled.div`
   }
 `;
 
-export const StyledInput = styled.input`
-  outline: none;
-  background-color: #f0f3f8;
-  font-family: "Montserrat", sans-serif;
-  border-radius: 12px;
+export const StyledInput = styled(Input)`
   padding: 10px 20px;
   margin: 12px;
-  font-size: 1.2rem;
-  font-weight: 500;
-  border: none;
   transition: 0.3s border-color;
   @media (max-width: 420px) {
     margin: 10px;
@@ -64,6 +58,14 @@ export const SubmitButton = styled(Button)`
   margin: 15px;
   padding: 10px 35px;
   border-radius: 25px;
+  background-color: #fff500;
+  color: #18202d;
+  border: none;
+  &:hover,
+  &:focus {
+    background-color: ${({ theme }) => theme.contrastColor};
+    color: ${({ theme }) => theme.primaryColor};
+  }
 `;
 
 export const StyledNavLink = styled(NavLink)`

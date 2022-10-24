@@ -21,6 +21,8 @@ export const UIContext = createContext({
   sortType: "desc" as SortType,
   openAddFileSidebar: () => {},
   closeAddFileSidebar: () => {},
+  settingsModalOpened: false,
+  setSettingsModalOpened: (prop: any) => {},
   theme: "light" as Theme,
   toggleTheme: () => {},
 });
@@ -45,6 +47,7 @@ const UIProvider: React.FC = ({ children }) => {
     fileId: "",
   });
   const [filterBarOpened, setFilterBarOpened] = useState(false);
+  const [settingsModalOpened, setSettingsModalOpened] = useState(false);
 
   const openAddFileSidebar = () => {
     setAddFileSidebarOpened(true);
@@ -71,6 +74,8 @@ const UIProvider: React.FC = ({ children }) => {
           initialData: editFileInitialData,
           setInitialData: setEditFileInitialData,
         },
+        settingsModalOpened,
+        setSettingsModalOpened,
       }}
     >
       {children}

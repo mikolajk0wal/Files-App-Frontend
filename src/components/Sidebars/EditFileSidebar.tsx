@@ -12,7 +12,7 @@ import {
 import { FormErrorMessage } from "../FormErrorMessage/FormErrorMessage";
 import { useContext } from "react";
 import { UIContext } from "../../context/UIContext";
-import { useAddFileMutation, useEditFileMutation } from "../../services/files";
+import { useEditFileMutation } from "../../services/files";
 import useModal from "../../hooks/useModal";
 
 const EditFileSchema = Yup.object().shape({
@@ -58,13 +58,17 @@ const EditFileSidebar = () => {
         })
           .unwrap()
           .then((payload) => {
-            showModal("Edytowano plik!", "success", false);
+            showModal({
+              text: "Edytowano plik!",
+              icon: "success",
+              confirm: false,
+            });
           })
           .catch((err) => {
             const message = err?.data?.message
               ? err.data.message
               : "Błąd przy edycji pliku";
-            showModal(message, "error", false);
+            showModal({ text: message, icon: "error", confirm: false });
           });
         editFileSidebar.setOpened(false);
       }}
@@ -83,12 +87,17 @@ const EditFileSidebar = () => {
             </EditCloseButton>
           </HeadingWrapper>
 
-          <Field placeholder="Tytuł" name="title" id="title" as={StyledInput} />
+          <Field
+            placeholder="Tytuł"
+            name="title"
+            id="edit-title"
+            as={StyledInput}
+          />
           <ErrorMessage name="title" component={FormErrorMessage} />
           <Field
             placeholder="Przedmiot"
             name="subject"
-            id="subject"
+            id="edit-subject"
             as={StyledInput}
           />
           <ErrorMessage name="subject" component={FormErrorMessage} />

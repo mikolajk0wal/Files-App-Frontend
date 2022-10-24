@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Route, useLocation } from "react-router";
+import { Route, useHistory, useLocation } from "react-router";
 import { UIContext } from "../../context/UIContext";
 import { logout } from "../../slices/authSlice";
 import { RootState } from "../../store";
@@ -9,8 +9,6 @@ import {
   LoginNavLink,
   ImgIcon,
   LoginIcon,
-  LogoutIcon,
-  LogoutButton,
   Navigation,
   StyledNavLink,
   PdfIcon,
@@ -22,6 +20,8 @@ import {
   MoonIcon,
   SearchButton,
   OtherIcon,
+  UserIcon,
+  UserButton,
 } from "./Nav.styles";
 import Switch from "react-switch";
 
@@ -36,22 +36,32 @@ const Nav: React.FC = () => {
     toggleTheme,
   } = useContext(UIContext);
 
-  const { userId } = useSelector((state: RootState) => state.auth);
+  const { userId, login } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
 
+  const history = useHistory();
   const { pathname } = useLocation();
 
   const showModal = useModal();
 
-  const handleLogout = async () => {
-    const isConfirmed = await showModal(
-      "Czy napewno chcesz się wylogować ?",
-      "question",
-      true
-    );
+  const handleUserButtonClick = async () => {
+    const isConfirmed = await showModal({
+      text: "Co chcesz zrobic",
+      icon: "question",
+      confirm: true,
+      cancelText: "Mój profil",
+      confirmText: "Wyloguj się",
+    });
     if (isConfirmed) {
       dispatch(logout());
-      showModal("Wylogowano pomyślnie", "success", false, "/login");
+      showModal({
+        text: "Wylogowano pomyślnie",
+        icon: "success",
+        confirm: false,
+        redirectUrl: "/login",
+      });
+    } else {
+      history.push(`/users/${login}`);
     }
   };
   return (
@@ -78,7 +88,7 @@ const Nav: React.FC = () => {
         <OtherIcon alt="Other Icon" />
       </StyledNavLink>
 
-      <Route path={["/pdf", "/img", "/other"]}>
+      <Route path={["/pdf", "/img", "/other", "/users/:name"]}>
         {userId && (
           <AddButton
             aria-label="Open Sidebar"
@@ -99,9 +109,9 @@ const Nav: React.FC = () => {
       </Route>
 
       {userId ? (
-        <LogoutButton aria-label="Sign Out" onClick={handleLogout}>
-          <LogoutIcon alt="Logout Icon" />
-        </LogoutButton>
+        <UserButton aria-label="Sign Out" onClick={handleUserButtonClick}>
+          <UserIcon alt="Logout Icon" />
+        </UserButton>
       ) : (
         <LoginNavLink
           aria-label="Sign In"

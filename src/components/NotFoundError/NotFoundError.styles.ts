@@ -1,31 +1,18 @@
 import styled from "styled-components";
 import { IoIosArchive } from "react-icons/io";
 
-export const FilesType = styled.h1`
-  font-size: 2rem;
-  text-align: center;
-  padding: 40px;
-  color: ${({ theme }) => theme.contrastColor};
-  margin-top: 110px;
-  @media (max-width: 1472px) {
-    margin-top: 185px;
-  }
+interface Props {
+  centered?: boolean;
+}
 
-  @media (max-width: 1150px) {
-    margin-top: 30px;
-  }
-  @media (max-width: 430px) {
-    margin-top: 100px;
-  }
-`;
-
-export const ErrorWrapper = styled.section`
+export const ErrorWrapper = styled.section<Props>`
   color: ${({ theme }) => theme.contrastColor};
-  position: absolute;
-  top: 40%;
-  left: calc(50% + 80px);
+  ${({ centered }) =>
+    centered
+      ? "  position: absolute;\n  top: 40%;\n  left: calc(50% + 80px);\n  transform: translate(-50%, -50%);"
+      : ""}
+
   padding: 30px;
-  transform: translate(-50%, -50%);
   @media (max-width: 650px) {
     left: 50%;
   }

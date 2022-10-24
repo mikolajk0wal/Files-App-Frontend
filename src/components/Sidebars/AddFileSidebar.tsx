@@ -58,7 +58,11 @@ const AddFileSidebar: React.FC = () => {
         { resetForm }: FormikHelpers<FormikValues>
       ) => {
         if (!file) {
-          showModal("Nie załączono pliku", "error", false);
+          showModal({
+            text: "Nie załączono pliku",
+            icon: "error",
+            confirm: false,
+          });
           return;
         }
         addFile({
@@ -69,14 +73,18 @@ const AddFileSidebar: React.FC = () => {
         })
           .unwrap()
           .then((payload) => {
-            showModal("Dodano plik!", "success", false);
+            showModal({
+              text: "Dodano plik!",
+              icon: "success",
+              confirm: false,
+            });
             payload.type && history.push(`/${payload.type}`);
           })
           .catch((err) => {
             const message = err?.data?.message
               ? err.data.message
               : "Błąd przy dodawaniu pliku";
-            showModal(message, "error", false);
+            showModal({ text: message, icon: "error", confirm: false });
           });
         resetForm();
         setFile(null);

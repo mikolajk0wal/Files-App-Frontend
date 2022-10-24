@@ -41,6 +41,7 @@ interface GetFilesDto {
   subject?: string;
   title?: string;
   page?: number;
+  userPage?: boolean;
 }
 
 export const filesApi = createApi({
@@ -54,12 +55,16 @@ export const filesApi = createApi({
   tagTypes: ["File"],
   endpoints: (builder) => ({
     getFilesByType: builder.query<FindFilesResponse, GetFilesDto>({
-      query: ({ type, sortType, subject, title, author, page }) =>
-        `files/type/${type}${sortType ? `?sort=${sortType}` : ""}${
+      query: ({ type, sortType, subject, title, author, page, userPage }) => {
+        const queryData = `${sortType ? `?sort=${sortType}` : ""}${
           subject ? `&subject=${subject}` : ""
         }${title ? `&q=${title}` : ""}${author ? `&authorName=${author}` : ""}${
           page ? `&page=${page}` : ""
-        }&per_page=6`,
+        }&per_page=8`;
+        return userPage
+          ? `users/files/${author}${queryData}`
+          : `files/type/${type}${queryData}`;
+      },
       providesTags: ["File"],
     }),
     addFile: builder.mutation({

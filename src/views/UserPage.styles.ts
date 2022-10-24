@@ -1,13 +1,42 @@
 import { FaUserCircle } from "react-icons/fa";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import { AiFillSetting } from "react-icons/ai";
 
-export const UserIcon = styled(FaUserCircle)`
+interface IconProps {
+  alt: string;
+}
+
+interface SettingsIconProps {
+  alt: string;
+  $clicked: boolean;
+}
+
+const iconStyles = css`
   width: 130px;
   height: 130px;
   background-color: ${({ theme }) => theme.primaryColor};
   color: ${({ theme }) => theme.contrastColor};
   border-radius: 65px;
   margin: 20px;
+`;
+
+export const UserIcon = styled(FaUserCircle)<IconProps>`
+  ${iconStyles}
+`;
+
+export const SettingsIcon = styled(AiFillSetting)<SettingsIconProps>`
+  ${iconStyles};
+  background-color: transparent;
+  width: 100px;
+  height: 100px;
+  transition: 0.3s transform;
+  ${({ $clicked }) => ($clicked ? "transform:rotate(25deg);" : "")};
+`;
+
+export const SettingsButton = styled.button`
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
 `;
 
 export const DeleteButton = styled.button`
@@ -48,6 +77,7 @@ export const ChangePermissionsButton = styled.button`
 export const Name = styled.h1`
   font-size: 3rem;
   font-weight: 600;
+  text-align: center;
   color: ${({ theme }) => theme.contrastColor};
 `;
 
@@ -60,12 +90,22 @@ export const CreatedInfo = styled.h4`
 `;
 
 export const InfoWrapper = styled.section`
+  margin-top: 130px;
   display: flex;
   justify-content: center;
   padding: 20px;
   flex-wrap: wrap;
   align-items: center;
   width: 100%;
+  @media (max-width: 1664px) {
+    margin-top: 200px;
+  }
+  @media (max-width: 1150px) {
+    margin-top: 30px;
+  }
+  @media (max-width: 430px) {
+    margin-top: 100px;
+  }
 `;
 
 export const UserDataWrapper = styled.div`

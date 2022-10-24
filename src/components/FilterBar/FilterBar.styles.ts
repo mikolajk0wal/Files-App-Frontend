@@ -120,8 +120,8 @@ export const SearchInput = styled.input`
   }
 `;
 
-export const SearchButton = styled.button`
-  margin-left: auto;
+export const SearchButton = styled.button<{ dashboard?: boolean }>`
+  margin-left: ${({ dashboard }) => (dashboard ? "15px" : "auto")};
   cursor: pointer;
   background-color: #5c63db;
   text-align: center;

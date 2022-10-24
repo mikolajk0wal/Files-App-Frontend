@@ -14,7 +14,7 @@ import {
   GoBackIcon,
   StyledSearchButton,
 } from "./DashboardNav.styles";
-import { SearchButton, SearchIcon } from "./Nav.styles";
+import { SearchIcon } from "./Nav.styles";
 import { UIContext } from "../../context/UIContext";
 
 const DashboardNav = () => {

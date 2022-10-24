@@ -52,13 +52,22 @@ const LoginForm: React.FC = () => {
             .unwrap()
             .then((payload: SignInResponse) => {
               dispatch(loginAction(payload));
-              showModal("Zalogowano Pomyślnie!", "success", false, "/");
+              showModal({
+                text: "Zalogowano Pomyślnie!",
+                icon: "success",
+                confirm: false,
+                redirectUrl: "/",
+              });
             })
             .catch((err) => {
               const message = err?.data?.message
                 ? err.data.message
                 : "Błąd przy logowaniu";
-              showModal(message, "error", false);
+              showModal({
+                text: message,
+                icon: "error",
+                confirm: false,
+              });
             });
         }}
       >

@@ -1,6 +1,7 @@
 import { MdDelete, MdEdit } from "react-icons/md";
 import styled, { css } from "styled-components";
 import { Button } from "../Button/Button";
+import { Link } from "react-router-dom";
 
 export const Wrapper = styled.article`
   width: 340px;
@@ -54,13 +55,22 @@ export const Title = styled.h2`
   text-align: center;
 `;
 
-export const Paragraph = styled.p<{ clickable?: boolean }>`
-  ${({ clickable }) => (clickable ? "cursor:pointer;" : "")};
+const paragraphStyles = css`
   font-size: 1rem;
   padding: 5px;
   color: ${({ theme }) => theme.cardParagraphColor};
   font-weight: 500;
   text-align: center;
+`;
+
+export const Paragraph = styled.p<{ clickable?: boolean }>`
+  ${({ clickable }) => (clickable ? "cursor:pointer;" : "")};
+  ${paragraphStyles};
+`;
+
+export const AuthorLink = styled(Link)`
+  text-decoration: none;
+  ${paragraphStyles};
 `;
 
 export const ButtonsWrapper = styled.div`

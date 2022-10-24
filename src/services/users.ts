@@ -1,18 +1,19 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { UserType } from "../enums/UserType";
 import { SortType } from "../types/SortType";
 import { UserInterface } from "../types/User";
-import { FindFilesResponse } from "./files";
 
 interface UpdateUserDto {
-  newRole: UserType;
   id: string;
+  login?: string;
+  password?: string;
+  newPassword?: string;
+  retypedNewPassword?: string;
 }
 
-export type FindUserWithFiles = {
-  filesData: FindFilesResponse;
-  user: UserInterface;
-};
+interface ChangeUsersPermissionsDto {
+  id: string;
+  newRole: "normal" | "moderator";
+}
 
 export const usersApi = createApi({
   reducerPath: "usersApi",
@@ -22,13 +23,16 @@ export const usersApi = createApi({
         ? "http://localhost:8000/api"
         : "/api",
   }),
+  tagTypes: ["User"],
   endpoints: (builder) => ({
-    getUserByLogin: builder.query<FindUserWithFiles, string>({
-      query: (name: string) => `users/files/${name}`,
+    getUserByLogin: builder.query<UserInterface, string>({
+      query: (name: string) => `users/login/${name}`,
+      providesTags: ["User"],
     }),
     getUsers: builder.query<UserInterface[], SortType>({
       query: (sortType: SortType) =>
         `users${sortType ? `?sort=${sortType}` : ""} `,
+      providesTags: ["User"],
       transformResponse: (data: any) => data.users,
     }),
     deleteUser: builder.mutation({
@@ -44,34 +48,69 @@ export const usersApi = createApi({
       },
     }),
     updateUser: builder.mutation({
-      query: ({ id, newRole }: UpdateUserDto) => {
+      query: (updateUserDto: UpdateUserDto) => {
         const jwt = localStorage.getItem("jwt");
+        const { id, ...propsToUpdate } = updateUserDto;
         return {
           url: `/users/${id}`,
           method: "PATCH",
           body: {
-            type: newRole,
+            ...propsToUpdate,
           },
           headers: {
             Authorization: `Bearer ${jwt}`,
           },
         };
       },
-      // async onQueryStarted(
-      //   { id, newRole },
-      //   { dispatch, queryFulfilled, getCacheEntry, getState }
-      // ) {
-      //   try {
-      //     const { data: updatedUser } = await queryFulfilled;
+      invalidatesTags: ["User"],
+      async onQueryStarted(
+        { id, login },
+        { dispatch, queryFulfilled, getCacheEntry, getState }
+      ) {
+        try {
+          const { data: updatedUser } = await queryFulfilled;
+          dispatch(
+            usersApi.util.updateQueryData(
+              "getUserByLogin",
+              updatedUser.login,
+              (draft) => {
+                draft = updatedUser;
+              }
+            )
+          );
+        } catch {}
+      },
+    }),
 
-      //     dispatch(
-      //       usersApi.util.updateQueryData('getUsers', 'desc', (draft) => {
-      //         const _id = updatedUser?._id;
-      //         const userToUpdate = draft.find((user) => user._id === _id);
-      //       })
-      //     );
-      //   } catch {}
-      // },
+    changeUsersPermissions: builder.mutation({
+      query: ({ id, newRole }: ChangeUsersPermissionsDto) => {
+        const jwt = localStorage.getItem("jwt");
+        return {
+          url: `/users/changePerms/${id}`,
+          method: "PATCH",
+          body: {
+            newRole,
+          },
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        };
+      },
+      async onQueryStarted({ id, newRole }, { dispatch, queryFulfilled }) {
+        try {
+          const { data: updatedUser } = await queryFulfilled;
+
+          dispatch(
+            usersApi.util.updateQueryData(
+              "getUserByLogin",
+              updatedUser.login,
+              (draft) => {
+                draft.type = updatedUser.type;
+              }
+            )
+          );
+        } catch {}
+      },
     }),
   }),
 });
@@ -80,5 +119,6 @@ export const {
   useGetUserByLoginQuery,
   useGetUsersQuery,
   useDeleteUserMutation,
+  useChangeUsersPermissionsMutation,
   useUpdateUserMutation,
 } = usersApi;

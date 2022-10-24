@@ -12,6 +12,7 @@ import { darkTheme, lightTheme } from "../../theme/theme";
 import { UIContext } from "../../context/UIContext";
 import { ThemeProvider } from "styled-components";
 import EditFileSidebar from "../Sidebars/EditFileSidebar";
+import SettingsModal from "../SettingsModal/SettingsModal";
 
 const AddFileSidebar = React.lazy(() => import("../Sidebars/AddFileSidebar"));
 
@@ -35,9 +36,20 @@ const PageTemplate: React.FC = ({ children }) => {
         {isDashboard ? <DashboardNav /> : <Nav />}
         <Wrapper isDashboard={isDashboard}>{children}</Wrapper>
         <Suspense fallback={<CustomLoader />}>
-          <Route path={["/pdf", "/img", "/other"]}>
+          <Route
+            path={[
+              "/pdf",
+              "/img",
+              "/other",
+              "/users/:name",
+              "/dashboard/:type",
+            ]}
+          >
             <AddFileSidebar />
             <EditFileSidebar />
+          </Route>
+          <Route path="/users/:name">
+            <SettingsModal />
           </Route>
         </Suspense>
       </ThemeProvider>

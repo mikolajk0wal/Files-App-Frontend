@@ -11,6 +11,7 @@ import {
   Wrapper,
   EditButton,
   EditIcon,
+  AuthorLink,
 } from "./FileCard.styles";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
@@ -47,22 +48,22 @@ const FileCard: React.FC<Props> = ({
   const showModal = useModal();
 
   const handleDelete = async () => {
-    const isConfirmed = await showModal(
-      "Czy napewno chcesz usunąć ten plik ?",
-      "question",
-      true
-    );
+    const isConfirmed = await showModal({
+      text: "Czy napewno chcesz usunąć ten plik ?",
+      icon: "question",
+      confirm: true,
+    });
     if (isConfirmed) {
       deleteFile({ id, sortType })
         .unwrap()
         .then(() => {
-          showModal("Usunięto plik", "success", false);
+          showModal({ text: "Usunięto plik", icon: "success", confirm: false });
         })
         .catch((err) => {
           const message = err?.data?.message
             ? err.data.message
             : "Błąd przy rejestracji";
-          showModal(message, "error", false);
+          showModal({ text: message, icon: "error", confirm: false });
         });
     }
   };
@@ -72,21 +73,12 @@ const FileCard: React.FC<Props> = ({
     editFileSidebar.setOpened(true);
   };
 
+  const canEdit = authorName === login;
+
   const canDelete =
     authorName === login ||
     userType === UserType.admin ||
     userType === UserType.moderator;
-
-  const handleAuthorClick = (author: string) => () => {
-    if (setSearchFilters) {
-      setSearchFilters((prevState) => {
-        if (prevState.author === author) {
-          return { ...prevState, author: "" };
-        }
-        return { ...prevState, author };
-      });
-    }
-  };
 
   const handleSubjectClick = (subject: string) => () => {
     if (setSearchFilters) {
@@ -102,9 +94,7 @@ const FileCard: React.FC<Props> = ({
   return (
     <Wrapper>
       <Title>{title}</Title>
-      <Paragraph onClick={handleAuthorClick(authorName)} clickable>
-        Autor: {authorName}
-      </Paragraph>
+      <AuthorLink to={`/users/${authorName}`}>Autor: {authorName} </AuthorLink>
       <Paragraph onClick={handleSubjectClick(subject)} clickable>
         Temat: {subject}
       </Paragraph>
@@ -122,15 +112,17 @@ const FileCard: React.FC<Props> = ({
         >
           Pobierz
         </DownloadButton>
-        {canDelete && (
+        {canEdit && (
           <>
-            <DeleteButton aria-label="Delete File" onClick={handleDelete}>
-              <DeleteIcon />
-            </DeleteButton>
             <EditButton aria-label="Edit File" onClick={handleEditButtonClick}>
               <EditIcon />
             </EditButton>
           </>
+        )}
+        {canDelete && (
+          <DeleteButton aria-label="Delete File" onClick={handleDelete}>
+            <DeleteIcon />
+          </DeleteButton>
         )}
       </ButtonsWrapper>
     </Wrapper>

@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { UserType } from '../enums/UserType';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { UserType } from "../enums/UserType";
 
 interface AuthState {
   userId: string | null;
@@ -12,7 +12,7 @@ const initialState: AuthState = {
   userId: null,
   login: null,
   type: null,
-  status: '',
+  status: "",
 };
 
 export interface SignInResponse {
@@ -23,17 +23,17 @@ export interface SignInResponse {
 }
 
 export const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState,
   reducers: {
     logout: (state) => {
-      localStorage.removeItem('jwt');
+      localStorage.removeItem("jwt");
       state.userId = null;
       state.login = null;
       state.type = null;
     },
     login: (state, action: PayloadAction<SignInResponse>) => {
-      localStorage.setItem('jwt', action.payload.jwt);
+      localStorage.setItem("jwt", action.payload.jwt);
       state.userId = action.payload.userId;
       state.login = action.payload.login;
       state.type = action.payload.type;

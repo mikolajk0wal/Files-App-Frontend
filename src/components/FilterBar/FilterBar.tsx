@@ -13,20 +13,20 @@ import Checkbox from "../Checkbox/Checkbox";
 import { ChangeEvent, useContext } from "react";
 import { UIContext } from "../../context/UIContext";
 import { SearchFilters } from "../../views/FilesPage";
+import { isDashboard } from "../../utils/isDashboard";
 
 interface Props {
   searchFilters: SearchFilters;
   setSearchFilters: React.Dispatch<React.SetStateAction<SearchFilters>>;
   handleFormSubmit: (e: any) => void;
-  dashboard?: boolean;
 }
 
 const FilterBar: React.FC<Props> = ({
   searchFilters,
   setSearchFilters,
   handleFormSubmit,
-  dashboard,
 }) => {
+  const dashboard = isDashboard();
   const { author, sortType, subject, title } = searchFilters;
   const { filterBarOpened } = useContext(UIContext);
   const handleCheckboxClick = () => {
@@ -111,7 +111,9 @@ const FilterBar: React.FC<Props> = ({
           onChange={handleCheckboxClick}
         />
 
-        <SearchButton type="submit">Search</SearchButton>
+        <SearchButton type="submit" dashboard={dashboard}>
+          Search
+        </SearchButton>
       </SearchWrapper>
     </Wrapper>
   );

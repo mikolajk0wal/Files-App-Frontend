@@ -1,12 +1,11 @@
 import { NavLink } from "react-router-dom";
 import { MdImage } from "react-icons/md";
-import { FiLogIn, FiLogOut } from "react-icons/fi";
+import { FiLogIn } from "react-icons/fi";
 import { VscFilePdf } from "react-icons/vsc";
 import { IoMdAddCircle } from "react-icons/io";
 import { BsFillMoonFill, BsSunFill } from "react-icons/bs";
 import { AiOutlineSearch, AiFillFolder } from "react-icons/ai";
-
-import { HiPresentationChartLine } from "react-icons/hi";
+import { FaUserCircle } from "react-icons/fa";
 
 import styled, { css } from "styled-components";
 
@@ -69,7 +68,7 @@ const buttonCss = css`
   }
 `;
 
-export const LogoutButton = styled.button`
+export const UserButton = styled.button`
   ${navItemCss}
   ${buttonCss}
 `;
@@ -163,11 +162,11 @@ export const PdfIcon = styled(VscFilePdf)<IconProps>`
   ${IconStyles}
 `;
 
-export const ImgIcon = styled(MdImage)<IconProps>`
+export const UserIcon = styled(FaUserCircle)<IconProps>`
   ${IconStyles}
 `;
 
-export const PptxIcon = styled(HiPresentationChartLine)<IconProps>`
+export const ImgIcon = styled(MdImage)<IconProps>`
   ${IconStyles}
 `;
 
@@ -176,10 +175,6 @@ export const OtherIcon = styled(AiFillFolder)<IconProps>`
 `;
 
 export const LoginIcon = styled(FiLogIn)<IconProps>`
-  ${IconStyles}
-`;
-
-export const LogoutIcon = styled(FiLogOut)<IconProps>`
   ${IconStyles}
 `;
 

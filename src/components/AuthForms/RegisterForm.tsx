@@ -57,18 +57,22 @@ const RegisterForm = () => {
           signUp({ login, password, retypedPassword })
             .unwrap()
             .then(() => {
-              showModal(
-                "Zarejestrowano Pomyślnie! Od teraz możesz się zalogować",
-                "success",
-                false,
-                "/login"
-              );
+              showModal({
+                text: "Zarejestrowano Pomyślnie! Od teraz możesz się zalogować",
+                icon: "success",
+                confirm: false,
+                redirectUrl: "/login",
+              });
             })
             .catch((err: any) => {
               const message = err?.data?.message
                 ? err.data.message
                 : "Błąd przy rejestracji";
-              showModal(message, "error", false);
+              showModal({
+                text: message,
+                icon: "error",
+                confirm: false,
+              });
             });
         }}
       >

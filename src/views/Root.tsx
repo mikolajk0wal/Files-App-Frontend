@@ -12,6 +12,8 @@ const UsersPage = React.lazy(() => import("./UsersPage"));
 const UserPage = React.lazy(() => import("./UserPage"));
 
 const Root = () => {
+  //@TODO Formik do pól edycji na profilu (zmiana hasla itp), może zrobić to że formik a nie useFormik bo ta walidacja taka o
+  //@TODO Rejestracja z emailem i potwierdzaniem
   return (
     <UIProvider>
       <BrowserRouter>
@@ -21,17 +23,25 @@ const Root = () => {
               <Route exact path="/">
                 <Redirect to="/pdf" />
               </Route>
-              <Route path={["/pdf", "/img", "/other"]}>
+              <Route
+                path={[
+                  "/pdf",
+                  "/img",
+                  "/other",
+                  "/dashboard/pdf",
+                  "/dashboard/img",
+                  "/dashboard/other",
+                ]}
+              >
                 <FilesPage />
+              </Route>
+              <Route exact path="/users/:login">
+                <UserPage />
               </Route>
               <Route exact path="/dashboard">
                 <Redirect to="/dashboard/pdf" />
               </Route>
-              <Route
-                path={["/dashboard/pdf", "/dashboard/img", "/dashboard/other"]}
-              >
-                <FilesPage dashboard />
-              </Route>
+
               <Route exact path="/dashboard/users">
                 <UsersPage />
               </Route>
