@@ -12,8 +12,8 @@ const UsersPage = React.lazy(() => import("./UsersPage"));
 const UserPage = React.lazy(() => import("./UserPage"));
 
 const Root = () => {
-  //@TODO Formik do pól edycji na profilu (zmiana hasla itp), może zrobić to że formik a nie useFormik bo ta walidacja taka o
   //@TODO Rejestracja z emailem i potwierdzaniem
+  //@TODO TESTY?
   return (
     <UIProvider>
       <BrowserRouter>

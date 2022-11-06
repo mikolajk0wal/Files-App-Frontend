@@ -3,6 +3,15 @@ import Swal, { SweetAlertIcon } from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 const MySwal = withReactContent(Swal);
 
+export interface ShowModalProps {
+  text: string;
+  icon: SweetAlertIcon;
+  confirm: boolean;
+  redirectUrl?: string;
+  cancelText?: string;
+  confirmText?: string;
+}
+
 const useModal = () => {
   const history = useHistory();
 
@@ -13,14 +22,7 @@ const useModal = () => {
     redirectUrl,
     confirmText,
     cancelText,
-  }: {
-    text: string;
-    icon: SweetAlertIcon;
-    confirm: boolean;
-    redirectUrl?: string;
-    cancelText?: string;
-    confirmText?: string;
-  }) => {
+  }: ShowModalProps) => {
     let isConfirmed = false;
     await MySwal.fire({
       title: <p>{text}</p>,

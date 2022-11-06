@@ -1,14 +1,11 @@
 import React, { useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import CustomLoader from "../components/CustomLoader/CustomLoader";
 import useModal from "../hooks/useModal";
-import { isFetchBaseQueryErrorType } from "../services/files";
 import {
   useDeleteUserMutation,
   useGetUserByLoginQuery,
   useChangeUsersPermissionsMutation,
 } from "../services/users";
-import { ApiError } from "../types/ApiError";
 import dayjs from "dayjs";
 import {
   ChangePermissionsButton,
@@ -27,6 +24,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { isDashboard } from "../utils/isDashboard";
 import { UIContext } from "../context/UIContext";
+import LoadingAndErrorHandler from "../components/LoadingAndErrorHandler/LoadingAndErrorHandler";
 
 const UserPage = () => {
   const { setSettingsModalOpened, settingsModalOpened } = useContext(UIContext);
@@ -43,8 +41,6 @@ const UserPage = () => {
   const { type } = useSelector((state: RootState) => state.auth);
 
   const showModal = useModal();
-  const errorData =
-    error && isFetchBaseQueryErrorType(error) ? (error.data as ApiError) : null;
 
   useEffect(() => {
     if (user) {
@@ -123,37 +119,7 @@ const UserPage = () => {
     }
   };
 
-  if (errorData || error) {
-    const SERVER_ERROR_REGEX = /50[0-9]/;
-    if (errorData?.status && errorData.status === 404) {
-      showModal({
-        text: "Nie znaleziono użytkownika",
-        icon: "error",
-        confirm: false,
-        redirectUrl: dashboard ? "/dashboard/users" : "/pdf",
-      });
-    } else if (
-      errorData?.status &&
-      SERVER_ERROR_REGEX.test(errorData.status.toString())
-    ) {
-      showModal({
-        text: "Wystąpił błąd po stronie serwera",
-        icon: "error",
-        confirm: false,
-      });
-    } else {
-      (async () => {
-        const isConfirmed = await showModal({
-          text: "Dane nie zostały pobrane. Może być to wina twojego połączenia. Ponowić próbę?",
-          icon: "error",
-          confirm: true,
-        });
-        isConfirmed && refetch();
-      })();
-    }
-  } else if (isLoading) {
-    return <CustomLoader />;
-  } else if (user && !isLoading) {
+  if (user && !isLoading) {
     return (
       <>
         <InfoWrapper>
@@ -180,7 +146,17 @@ const UserPage = () => {
       </>
     );
   }
-  return null;
+  return (
+    <LoadingAndErrorHandler
+      error={error}
+      isLoading={isLoading}
+      refetch={refetch}
+      firstModalProps={{
+        text: "Nie znaleziono użytkownika",
+        redirectUrl: dashboard ? "/dashboard/users" : "/pdf",
+      }}
+    />
+  );
 };
 
 export default UserPage;

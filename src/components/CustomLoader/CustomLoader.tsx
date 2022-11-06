@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import Loader from 'react-loader-spinner';
+import React, { useEffect, useState } from "react";
+import Loader from "react-loader-spinner";
 import {
   ClockIcon,
   HeaderInfo,
   LoaderWrapper,
   ParagraphInfo,
-} from './CustomLoader.styles';
+} from "./CustomLoader.styles";
 
-const CustomLoader = () => {
+const CustomLoader: React.FC = () => {
   const [badConnection, setBadConnection] = useState<boolean>(false);
 
   useEffect(() => {
