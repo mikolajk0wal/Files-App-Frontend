@@ -4,6 +4,7 @@ import { FileType } from "../types/FileType";
 import { SortType } from "../types/SortType";
 import FilesDisplay from "../components/FilesDisplay/FilesDisplay";
 import { isDashboard } from "../utils/isDashboard";
+import { FilesType } from "../components/FilesDisplay/FilesDisplay.styles";
 
 export type SearchFilters = {
   title?: string;
@@ -22,6 +23,11 @@ const FilesPage = () => {
 
   return (
     <>
+      <FilesType dashboard={dashboard}>
+        {fileType !== "other"
+          ? `Pliki ${fileType.toUpperCase()}`
+          : "Inne pliki"}
+      </FilesType>
       <FilesDisplay type={fileType} />
     </>
   );

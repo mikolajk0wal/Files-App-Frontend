@@ -7,9 +7,12 @@ interface Props {
 
 export const ErrorWrapper = styled.section<Props>`
   color: ${({ theme }) => theme.contrastColor};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   ${({ centered }) =>
     centered
-      ? "  position: absolute;\n  top: 40%;\n  left: calc(50% + 80px);\n  transform: translate(-50%, -50%);"
+      ? "  position: absolute;  top: 50%;  left: calc(50% + 80px);  transform: translate(-50%, -50%);"
       : ""}
 
   padding: 30px;

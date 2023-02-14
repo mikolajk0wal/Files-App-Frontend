@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { AddButton, AddIcon } from "../Nav/Nav.styles";
 import { Input } from "../Input/Input";
-import { Button } from "../Button/Button";
 import { SubmitButton } from "../AuthForms/AuthForms.styles";
 
 interface Props {

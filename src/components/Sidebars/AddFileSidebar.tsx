@@ -104,12 +104,17 @@ const AddFileSidebar: React.FC = () => {
             </CloseButton>
           </HeadingWrapper>
 
-          <Field placeholder="Tytuł" name="title" id="title" as={StyledInput} />
+          <Field
+            placeholder="Tytuł"
+            name="title"
+            id="add-title"
+            as={StyledInput}
+          />
           <ErrorMessage name="title" component={FormErrorMessage} />
           <Field
             placeholder="Przedmiot"
             name="subject"
-            id="subject"
+            id="add-subject"
             as={StyledInput}
           />
           <ErrorMessage name="subject" component={FormErrorMessage} />

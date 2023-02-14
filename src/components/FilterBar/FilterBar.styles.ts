@@ -90,6 +90,7 @@ const iconStyles = css`
   font-size: 2rem;
   color: #5c63db;
   font-weight: 700;
+  margin-right: 10px;
 `;
 
 export const SearchIcon = styled(AiOutlineSearch)`
@@ -105,7 +106,7 @@ export const AuthorIcon = styled(BsPencilFill)`
 `;
 
 export const SearchInput = styled.input`
-  margin-left: 10px;
+  //margin-left: 10px;
   font-family: "Montserrat", sans-serif;
   color: ${({ theme }) => theme.contrastColor};
   font-weight: 500;

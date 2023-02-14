@@ -6,7 +6,7 @@ interface Props {
   currentPage?: number;
   handlePageChange: (page: number) => void;
 }
-
+//@TODO JAK Z 2 strony pdf cche na other to na 2 strone przelacza na ktorej nie ma plikow
 const PaginationBar: React.FC<Props> = ({
   requiredPages,
   handlePageChange,

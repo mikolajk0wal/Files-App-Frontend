@@ -1,35 +1,35 @@
-import useModal, { ShowModalProps } from "../../hooks/useModal";
-import CustomLoader from "../CustomLoader/CustomLoader";
-import React from "react";
-import { ApiError } from "../../types/ApiError";
+import useModal from "../../hooks/useModal";
+import { FC } from "react";
 import { isFetchBaseQueryErrorType } from "../../services/files";
+import { ApiError } from "../../types/ApiError";
+import NotFoundError from "../NotFoundError/NotFoundError";
+import CustomLoader from "../CustomLoader/CustomLoader";
+import { isDashboard } from "../../utils/isDashboard";
 
 interface Props {
   error: any;
   isLoading: boolean;
   refetch: () => void;
-  firstModalProps?: Partial<ShowModalProps>;
 }
 
-const LoadingAndErrorHandler: React.FC<Props> = ({
+const FilesLoadingAndErrorHandler: FC<Props> = ({
   error,
   isLoading,
   refetch,
-  firstModalProps,
 }) => {
   const showModal = useModal();
   const errorData =
     error && isFetchBaseQueryErrorType(error) ? (error.data as ApiError) : null;
 
+  const dashboard = isDashboard();
   if (errorData || error) {
     const SERVER_ERROR_REGEX = /50[0-9]/;
     if (errorData?.status && errorData.status === 404) {
-      showModal({
-        text: "Nie znaleziono użytkowników",
-        icon: "error",
-        confirm: false,
-        ...firstModalProps,
-      });
+      return (
+        <NotFoundError centered={!dashboard}>
+          Nie znaleziono plików
+        </NotFoundError>
+      );
     } else if (
       errorData?.status &&
       SERVER_ERROR_REGEX.test(errorData.status.toString())
@@ -55,4 +55,4 @@ const LoadingAndErrorHandler: React.FC<Props> = ({
   return null;
 };
 
-export default LoadingAndErrorHandler;
+export default FilesLoadingAndErrorHandler;

@@ -35,7 +35,7 @@ interface DeleteFileDto {
 }
 
 interface GetFilesDto {
-  type: FileType;
+  type?: FileType;
   sortType: SortType;
   author?: string;
   subject?: string;
@@ -56,14 +56,15 @@ export const filesApi = createApi({
   endpoints: (builder) => ({
     getFilesByType: builder.query<FindFilesResponse, GetFilesDto>({
       query: ({ type, sortType, subject, title, author, page, userPage }) => {
-        const queryData = `${sortType ? `?sort=${sortType}` : ""}${
-          subject ? `&subject=${subject}` : ""
-        }${title ? `&q=${title}` : ""}${author ? `&authorName=${author}` : ""}${
-          page ? `&page=${page}` : ""
-        }&per_page=8`;
-        return userPage
-          ? `users/files/${author}${queryData}`
-          : `files/type/${type}${queryData}`;
+        const queryData = `${sortType ? `?sort=${sortType}` : "?sort=desc"}${
+          type ? `&type=${type}` : ""
+        }${subject ? `&subject=${subject}` : ""}${title ? `&q=${title}` : ""}${
+          author ? `&authorName=${author}` : ""
+        }${page ? `&page=${page}` : ""}&per_page=8`;
+        // return userPage
+        //   ? `users/files/${author}${queryData}`
+        //   : `files${queryData}&type=${type}`;
+        return `files${queryData}`;
       },
       providesTags: ["File"],
     }),

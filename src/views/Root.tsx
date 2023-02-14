@@ -7,13 +7,10 @@ import CustomLoader from "../components/CustomLoader/CustomLoader";
 const Login = React.lazy(() => import("./Login"));
 const FilesPage = React.lazy(() => import("./FilesPage"));
 const Register = React.lazy(() => import("./Register"));
-const NotFound = React.lazy(() => import("./NotFound"));
 const UsersPage = React.lazy(() => import("./UsersPage"));
 const UserPage = React.lazy(() => import("./UserPage"));
 
 const Root = () => {
-  //@TODO Rejestracja z emailem i potwierdzaniem
-  //@TODO TESTY?
   return (
     <UIProvider>
       <BrowserRouter>
@@ -55,7 +52,7 @@ const Root = () => {
                 <UserPage />
               </Route>
               <Route>
-                <NotFound />
+                <Redirect to="/" />
               </Route>
             </Switch>
           </Suspense>

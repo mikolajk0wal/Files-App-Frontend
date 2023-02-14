@@ -24,7 +24,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { isDashboard } from "../utils/isDashboard";
 import { UIContext } from "../context/UIContext";
-import LoadingAndErrorHandler from "../components/LoadingAndErrorHandler/LoadingAndErrorHandler";
+import UsersLoadingAndErrorHandler from "../components/UsersLoadingAndErrorHandler/UsersLoadingAndErrorHandler";
 
 const UserPage = () => {
   const { setSettingsModalOpened, settingsModalOpened } = useContext(UIContext);
@@ -38,7 +38,9 @@ const UserPage = () => {
     refetch,
   } = useGetUserByLoginQuery(login);
 
-  const { type } = useSelector((state: RootState) => state.auth);
+  const { type, login: loggedUserLogin } = useSelector(
+    (state: RootState) => state.auth
+  );
 
   const showModal = useModal();
 
@@ -123,9 +125,14 @@ const UserPage = () => {
     return (
       <>
         <InfoWrapper>
-          <SettingsButton onClick={handleSettingsButtonClick}>
-            <SettingsIcon alt="Settings Icon" $clicked={settingsModalOpened} />
-          </SettingsButton>
+          {loggedUserLogin === login && (
+            <SettingsButton onClick={handleSettingsButtonClick}>
+              <SettingsIcon
+                alt="Settings Icon"
+                $clicked={settingsModalOpened}
+              />
+            </SettingsButton>
+          )}
           <UserIcon alt="User Icon" />
           <UserDataWrapper>
             <Name>{login}</Name>
@@ -142,12 +149,12 @@ const UserPage = () => {
             </ChangePermissionsButton>
           )}
         </InfoWrapper>
-        <FilesDisplay type="pdf" login={login} />
+        <FilesDisplay login={login} />
       </>
     );
   }
   return (
-    <LoadingAndErrorHandler
+    <UsersLoadingAndErrorHandler
       error={error}
       isLoading={isLoading}
       refetch={refetch}

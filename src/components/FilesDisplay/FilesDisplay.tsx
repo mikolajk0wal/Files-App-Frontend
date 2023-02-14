@@ -1,23 +1,13 @@
 import { FC, useContext, useState } from "react";
 import { SortType } from "../../types/SortType";
 import { FileType } from "../../types/FileType";
-
-import {
-  isFetchBaseQueryErrorType,
-  useGetFilesByTypeQuery,
-} from "../../services/files";
-
+import { useGetFilesByTypeQuery } from "../../services/files";
 import { CardsWrapper } from "../FileCard/FileCard.styles";
 import FileCard from "../FileCard/FileCard";
 import PaginationBar from "../PaginationBar/PaginationBar";
 import FilterBar from "../FilterBar/FilterBar";
 import { UIContext } from "../../context/UIContext";
-import { FilesType } from "./FilesDisplay.styles";
-import { ApiError } from "../../types/ApiError";
-import useModal from "../../hooks/useModal";
-import CustomLoader from "../CustomLoader/CustomLoader";
-import { isDashboard } from "../../utils/isDashboard";
-import NotFoundError from "../NotFoundError/NotFoundError";
+import FilesLoadingAndErrorHandler from "./FilesLoadingAndErrorHandler";
 
 export type SearchFilters = {
   title?: string;
@@ -28,14 +18,12 @@ export type SearchFilters = {
 };
 
 interface Props {
-  type: FileType;
+  type?: FileType;
   login?: string;
 }
 
 const FilesDisplay: FC<Props> = ({ type, login }) => {
-  const dashboard = isDashboard();
   const { setSortType } = useContext(UIContext);
-  const showModal = useModal();
 
   const [searchFilters, setSearchFilters] = useState<SearchFilters>({
     author: "",
@@ -52,6 +40,8 @@ const FilesDisplay: FC<Props> = ({ type, login }) => {
     title: "",
     page: 1,
   });
+
+  //@TODO Pokminic czy gdzies render props albo hoc mozna wjebac
 
   const { data, error, isLoading, refetch } = useGetFilesByTypeQuery(
     {
@@ -70,54 +60,29 @@ const FilesDisplay: FC<Props> = ({ type, login }) => {
     }));
   };
 
-  const handleFilterFormSubmit = (e: SubmitEvent) => {
-    e.preventDefault();
-    setGetFilesDto(searchFilters);
+  const handleFilterFormSubmit = (title?: string) => {
+    setGetFilesDto({
+      ...searchFilters,
+      title: title ? title : searchFilters.title,
+    });
     setSortType(searchFilters.sortType);
   };
 
-  const errorData =
-    error && isFetchBaseQueryErrorType(error) ? (error.data as ApiError) : null;
+  let content = null;
 
-  let content;
-
-  if (errorData || error) {
-    const SERVER_ERROR_REGEX = /50[0-9]/;
-    if (errorData?.status && errorData.status === 404) {
-      content = (
-        <NotFoundError centered={!login}>Nie znaleziono plików</NotFoundError>
-      );
-    } else if (
-      errorData?.status &&
-      SERVER_ERROR_REGEX.test(errorData.status.toString())
-    ) {
-      content = (
-        <>
-          <h1>Wystąpił błąd po stronie serwera</h1>
-        </>
-      );
-    } else {
-      (async () => {
-        const isConfirmed = await showModal({
-          text: "Dane nie zostały pobrane. Może być to wina twojego połączenia. Ponowić próbę?",
-          icon: "error",
-          confirm: true,
-        });
-        isConfirmed && refetch();
-      })();
-    }
-  } else if (isLoading) {
-    content = <CustomLoader />;
+  if (error || isLoading) {
+    content = (
+      <FilesLoadingAndErrorHandler
+        error={error}
+        isLoading={isLoading}
+        refetch={refetch}
+      />
+    );
   } else if (data?.files?.length && !isLoading) {
     const { files, requiredPages } = data;
+
     content = (
       <>
-        {!login && (
-          <FilesType dashboard={dashboard}>
-            {type !== "other" ? `Pliki ${type.toUpperCase()}` : "Inne pliki"}
-          </FilesType>
-        )}
-
         <CardsWrapper>
           {files.map(({ _id, authorName, createdAt, subject, title, type }) => (
             <FileCard

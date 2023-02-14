@@ -6,11 +6,11 @@ export const GlobalStyles = createGlobalStyle<{ theme: ThemeProps }>`
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
   }
   body {
     background-color: ${({ theme }) => theme.backgroundColor};
     overflow-x: hidden;
-    font-family: 'Montserrat', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }

@@ -4,12 +4,13 @@ import {
   ErrorMessage,
   ErrorWrapper,
 } from "./NotFoundError.styles";
+import { FC } from "react";
 
 interface Props {
   centered?: boolean;
 }
 
-const NotFoundError: React.FC<Props> = ({ children, centered }) => (
+const NotFoundError: FC<Props> = ({ children, centered }) => (
   <ErrorWrapper centered={centered}>
     <Circle>
       <ArchiveIcon />

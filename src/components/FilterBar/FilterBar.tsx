@@ -10,15 +10,18 @@ import {
 } from "./FilterBar.styles";
 
 import Checkbox from "../Checkbox/Checkbox";
-import { ChangeEvent, useContext } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { UIContext } from "../../context/UIContext";
 import { SearchFilters } from "../../views/FilesPage";
 import { isDashboard } from "../../utils/isDashboard";
+import axios from "axios";
+import AutoComplete from "../AutoComplete/AutoComplete";
+import { useParams } from "react-router-dom";
 
 interface Props {
   searchFilters: SearchFilters;
   setSearchFilters: React.Dispatch<React.SetStateAction<SearchFilters>>;
-  handleFormSubmit: (e: any) => void;
+  handleFormSubmit: (title?: string) => void;
 }
 
 const FilterBar: React.FC<Props> = ({
@@ -27,8 +30,14 @@ const FilterBar: React.FC<Props> = ({
   handleFormSubmit,
 }) => {
   const dashboard = isDashboard();
+  const { login } = useParams() as any;
   const { author, sortType, subject, title } = searchFilters;
   const { filterBarOpened } = useContext(UIContext);
+
+  const [autoComplete, setAutoComplete] = useState<
+    { _id: string; title: string }[]
+  >([]);
+
   const handleCheckboxClick = () => {
     setSearchFilters((prevState: SearchFilters) => ({
       ...prevState,
@@ -36,10 +45,29 @@ const FilterBar: React.FC<Props> = ({
     }));
   };
 
-  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const title = e.target.value;
+    if (title && title?.length > 2) {
+      try {
+        const { data } = await axios.get(
+          process.env.NODE_ENV === "development"
+            ? `http://localhost:8000/api/files/autocomplete/${title}${
+                login ? `?authorName=${login}` : ""
+              }`
+            : `/api/files/autocomplete/${title}${
+                login ? `?authorName=${login}` : ""
+              }`
+        );
+        setAutoComplete(data);
+      } catch (e) {
+        setAutoComplete([]);
+      }
+    } else {
+      setAutoComplete([]);
+    }
     setSearchFilters((prevState: SearchFilters) => ({
       ...prevState,
-      title: e.target.value,
+      title,
     }));
   };
 
@@ -57,9 +85,21 @@ const FilterBar: React.FC<Props> = ({
     }));
   };
 
+  const handleAutoCompleteItemSelect = (title: string) => {
+    setSearchFilters((prevState: SearchFilters) => ({
+      ...prevState,
+      title,
+    }));
+    handleFormSubmit(title);
+    setAutoComplete([]);
+  };
+
   return (
     <Wrapper
-      onSubmit={handleFormSubmit}
+      onSubmit={(e: any) => {
+        e.preventDefault();
+        handleFormSubmit();
+      }}
       opened={filterBarOpened}
       dashboard={dashboard}
     >
@@ -67,13 +107,21 @@ const FilterBar: React.FC<Props> = ({
         <label htmlFor="title">
           <SearchIcon />
         </label>
-        <SearchInput
-          placeholder="Tytuł"
-          id="title"
-          name="title"
-          value={title}
-          onChange={handleTitleChange}
-        />
+        <div style={{ position: "relative" }}>
+          <SearchInput
+            placeholder="Tytuł"
+            id="title"
+            name="title"
+            value={title}
+            onChange={handleTitleChange}
+          />
+          {!!autoComplete.length && (
+            <AutoComplete
+              items={autoComplete}
+              onItemClick={handleAutoCompleteItemSelect}
+            />
+          )}
+        </div>
       </FilterWrapper>
 
       <FilterWrapper>

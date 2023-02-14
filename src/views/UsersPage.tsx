@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { CardsWrapper } from "../components/FileCard/FileCard.styles";
 import UserCard from "../components/UserCard/UserCard";
 import { useGetUsersQuery } from "../services/users";
-import LoadingAndErrorHandler from "../components/LoadingAndErrorHandler/LoadingAndErrorHandler";
+import UsersLoadingAndErrorHandler from "../components/UsersLoadingAndErrorHandler/UsersLoadingAndErrorHandler";
 
 const UsersPage = () => {
   const { data: users, error, isLoading, refetch } = useGetUsersQuery("asc");
@@ -22,7 +22,7 @@ const UsersPage = () => {
     );
   }
   return (
-    <LoadingAndErrorHandler
+    <UsersLoadingAndErrorHandler
       error={error}
       isLoading={isLoading}
       refetch={refetch}
