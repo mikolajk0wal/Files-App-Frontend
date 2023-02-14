@@ -56,15 +56,16 @@ export const filesApi = createApi({
   endpoints: (builder) => ({
     getFilesByType: builder.query<FindFilesResponse, GetFilesDto>({
       query: ({ type, sortType, subject, title, author, page, userPage }) => {
-        const queryData = `${sortType ? `?sort=${sortType}` : "?sort=desc"}${
-          type ? `&type=${type}` : ""
-        }${subject ? `&subject=${subject}` : ""}${title ? `&q=${title}` : ""}${
-          author ? `&authorName=${author}` : ""
-        }${page ? `&page=${page}` : ""}&per_page=8`;
-        // return userPage
-        //   ? `users/files/${author}${queryData}`
-        //   : `files${queryData}&type=${type}`;
-        return `files${queryData}`;
+        const url = new URL(window.location.href);
+        url.searchParams.set("sort", sortType ? sortType : "desc");
+        type && url.searchParams.set("type", type ? type : "");
+        subject && url.searchParams.set("subject", subject);
+        title && url.searchParams.set("q", title);
+        author && url.searchParams.set("authorName", author);
+        page && url.searchParams.set("page", page.toString());
+        url.searchParams.set("per_page", "8");
+
+        return `files${url.search}`;
       },
       providesTags: ["File"],
     }),
