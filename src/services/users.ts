@@ -30,8 +30,11 @@ export const usersApi = createApi({
       providesTags: ["User"],
     }),
     getUsers: builder.query<UserInterface[], SortType>({
-      query: (sortType: SortType) =>
-        `users${sortType ? `?sort=${sortType}` : ""} `,
+      query: (sortType: SortType) => {
+        const url = new URL(window.location.href);
+        url.searchParams.set("sort", sortType ? sortType : "desc");
+        return `users${url.search}`;
+      },
       providesTags: ["User"],
       transformResponse: (data: any) => data.users,
     }),
