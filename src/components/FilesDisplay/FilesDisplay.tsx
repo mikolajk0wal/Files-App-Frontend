@@ -1,4 +1,4 @@
-import { FC, useContext, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import { SortType } from "../../types/SortType";
 import { FileType } from "../../types/FileType";
 import { useGetFilesByTypeQuery } from "../../services/files";
@@ -25,22 +25,23 @@ interface Props {
 const FilesDisplay: FC<Props> = ({ type, login }) => {
   const { setSortType } = useContext(UIContext);
 
-  const [searchFilters, setSearchFilters] = useState<SearchFilters>({
+  const INITAL_FILTERS: SearchFilters = {
     author: "",
     sortType: "desc",
     subject: "",
     title: "",
     page: 1,
-  });
+  };
 
-  const [getFilesDto, setGetFilesDto] = useState<SearchFilters>({
-    author: "",
-    sortType: "desc",
-    subject: "",
-    title: "",
-    page: 1,
-  });
+  const [searchFilters, setSearchFilters] =
+    useState<SearchFilters>(INITAL_FILTERS);
 
+  const [getFilesDto, setGetFilesDto] = useState<SearchFilters>(INITAL_FILTERS);
+
+  useEffect(() => {
+    setSearchFilters(INITAL_FILTERS);
+    setGetFilesDto(INITAL_FILTERS);
+  }, [type]);
   //@TODO Pokminic czy gdzies render props albo hoc mozna wjebac
 
   const { data, error, isLoading, refetch } = useGetFilesByTypeQuery(
