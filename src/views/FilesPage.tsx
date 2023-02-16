@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useLocation } from "react-router";
 import { FileType } from "../types/FileType";
 import { SortType } from "../types/SortType";
@@ -20,7 +20,11 @@ const FilesPage = () => {
   const fileType = dashboard
     ? (pathname.slice(11) as FileType)
     : (pathname.slice(1) as FileType);
-
+  useEffect(() => {
+    document.title = `${
+      fileType !== "other" ? `Pliki ${fileType.toUpperCase()}` : "Inne pliki"
+    } | Aplikacja do plików`;
+  }, [fileType]);
   return (
     <>
       <FilesType dashboard={dashboard}>
