@@ -49,15 +49,6 @@ const FilterBar: React.FC<Props> = ({
     const title = e.target.value;
     if (title && title?.length > 2) {
       try {
-        // const { data } = await axios.get(
-        //   process.env.NODE_ENV === "development"
-        //     ? `http://localhost:8000/api/files/autocomplete/${title}${
-        //         login ? `?authorName=${login}` : ""
-        //       }`
-        //     : `/api/files/autocomplete/${title}${
-        //         login ? `?authorName=${login}` : ""
-        //       }`
-        // );
         const isDevEnv = process.env.NODE_ENV === "development";
         const { data } = await axios.get(
           `${

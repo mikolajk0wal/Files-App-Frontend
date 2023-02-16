@@ -10,7 +10,7 @@ const AutoComplete: React.FC<Props> = ({ items, onItemClick }) => {
     <StyledList>
       {items.map((item) => (
         <StyledItem key={item._id}>
-          <StyledButton onClick={() => onItemClick(item.title)}>
+          <StyledButton onClick={() => onItemClick(item.title)} type="button">
             {item.title}
           </StyledButton>
         </StyledItem>
