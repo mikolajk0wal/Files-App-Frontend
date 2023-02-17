@@ -46,35 +46,40 @@ const FilterBar: React.FC<Props> = ({
     }));
   };
 
-  const handleTitleChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    const title = e.target.value;
-    if (title && title?.length > 2) {
-      try {
-        const url = new URL(window.location.href);
-        const fileType = dashboard
-          ? (url.pathname.slice(11) as FileType)
-          : (url.pathname.slice(1) as FileType);
-        if (login) {
-          url.searchParams.set("authorName", login);
-        } else if (fileType) {
-          url.searchParams.set("type", fileType);
+  useEffect(() => {
+    (async () => {
+      if (title && title?.length > 2) {
+        try {
+          const url = new URL(window.location.href);
+
+          if (login) {
+            url.searchParams.set("authorName", login);
+          } else {
+            const fileType = dashboard
+              ? (url.pathname.slice(11) as FileType)
+              : (url.pathname.slice(1) as FileType);
+            url.searchParams.set("type", fileType);
+          }
+          const isDevEnv = process.env.NODE_ENV === "development";
+          const { data } = await axios.get(
+            `${
+              isDevEnv ? "http://localhost:8000" : ""
+            }/api/files/autocomplete/${title}${url.search}`
+          );
+          setAutoComplete(data);
+        } catch (e) {
+          setAutoComplete([]);
         }
-        const isDevEnv = process.env.NODE_ENV === "development";
-        const { data } = await axios.get(
-          `${
-            isDevEnv ? "http://localhost:8000" : ""
-          }/api/files/autocomplete/${title}${url.search}`
-        );
-        setAutoComplete(data);
-      } catch (e) {
+      } else {
         setAutoComplete([]);
       }
-    } else {
-      setAutoComplete([]);
-    }
+    })();
+  }, [title]);
+
+  const handleTitleChange = async (e: ChangeEvent<HTMLInputElement>) => {
     setSearchFilters((prevState: SearchFilters) => ({
       ...prevState,
-      title,
+      title: e.target.value,
     }));
   };
 
