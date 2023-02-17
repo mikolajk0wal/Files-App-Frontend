@@ -17,6 +17,7 @@ import { isDashboard } from "../../utils/isDashboard";
 import axios from "axios";
 import AutoComplete from "../AutoComplete/AutoComplete";
 import { useParams } from "react-router-dom";
+import { FileType } from "../../types/FileType";
 
 interface Props {
   searchFilters: SearchFilters;
@@ -49,13 +50,20 @@ const FilterBar: React.FC<Props> = ({
     const title = e.target.value;
     if (title && title?.length > 2) {
       try {
+        const url = new URL(window.location.href);
+        const fileType = dashboard
+          ? (url.pathname.slice(11) as FileType)
+          : (url.pathname.slice(1) as FileType);
+        if (login) {
+          url.searchParams.set("authorName", login);
+        } else if (fileType) {
+          url.searchParams.set("type", fileType);
+        }
         const isDevEnv = process.env.NODE_ENV === "development";
         const { data } = await axios.get(
           `${
             isDevEnv ? "http://localhost:8000" : ""
-          }/api/files/autocomplete/${title}${
-            login ? `?authorName=${login}` : ""
-          }`
+          }/api/files/autocomplete/${title}${url.search}`
         );
         setAutoComplete(data);
       } catch (e) {
