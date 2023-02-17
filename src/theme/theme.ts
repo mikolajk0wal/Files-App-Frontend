@@ -10,6 +10,8 @@ export const lightTheme = {
   primaryColor: "#FFFFFF",
   contrastColor: "#20253B",
   cardParagraphColor: "#14213d",
+  autocompleteBackground: "#F9F871",
+  autocompleteHoveredBackground: "#007982",
 };
 
 export const darkTheme = {
@@ -17,4 +19,6 @@ export const darkTheme = {
   primaryColor: "#18202D",
   contrastColor: "#FFFFFF",
   cardParagraphColor: "#9da8be",
+  autocompleteBackground: "#18A98A",
+  autocompleteHoveredBackground: "#f9f871",
 };

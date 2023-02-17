@@ -12,12 +12,26 @@ export const StyledList = styled.ul`
 
 export const StyledItem = styled.li`
   width: 100%;
-  margin-top: 3px;
-  // border-bottom: 1px solid ${({ theme }) => theme.primaryColor};
+  margin-top: 2px;
+  &:hover > button {
+    background-color: ${({ theme }) => theme.autocompleteHoveredBackground};
+    color: ${({ theme }) => theme.primaryColor};
+  }
+  &:first-child > button {
+    border-radius: 10px 10px 0 0;
+  }
+  &:last-child > button {
+    border-radius: 0 0 10px 10px;
+  }
 `;
 export const StyledButton = styled.button`
   color: ${({ theme }) => theme.contrastColor};
-  background-color: #5c6;
+  &:focus {
+    background-color: ${({ theme }) => theme.autocompleteHoveredBackground};
+    color: ${({ theme }) => theme.primaryColor};
+  }
+  transition: color, background-color 0.4s;
+  background-color: ${({ theme }) => theme.autocompleteBackground};
   border: none;
   width: 100%;
   cursor: pointer;
