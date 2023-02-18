@@ -3,6 +3,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { IoMdCloseCircle } from "react-icons/io";
 import { FaQuestionCircle } from "react-icons/fa";
 import { BsPencilFill } from "react-icons/bs";
+import { AiFillCalendar, MdSdStorage } from "react-icons/all";
 
 interface Props {
   opened: boolean;
@@ -105,8 +106,16 @@ export const AuthorIcon = styled(BsPencilFill)`
   ${iconStyles}
 `;
 
+export const CalendarIcon = styled(AiFillCalendar)`
+  color: #fff;
+  margin: 6px;
+`;
+export const StorageIcon = styled(MdSdStorage)`
+  color: #fff;
+  margin: 6px;
+`;
+
 export const SearchInput = styled.input`
-  //margin-left: 10px;
   font-family: "Montserrat", sans-serif;
   color: ${({ theme }) => theme.contrastColor};
   font-weight: 500;

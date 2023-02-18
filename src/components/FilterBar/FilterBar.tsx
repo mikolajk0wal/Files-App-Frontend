@@ -7,10 +7,12 @@ import {
   SearchWrapper,
   SearchButton,
   AuthorIcon,
+  CalendarIcon,
+  StorageIcon,
 } from "./FilterBar.styles";
 
 import Checkbox from "../Checkbox/Checkbox";
-import { ChangeEvent, useContext, useEffect, useState } from "react";
+import React, { ChangeEvent, useContext, useEffect, useState } from "react";
 import { UIContext } from "../../context/UIContext";
 import { SearchFilters } from "../../views/FilesPage";
 import { isDashboard } from "../../utils/isDashboard";
@@ -18,6 +20,9 @@ import axios from "axios";
 import AutoComplete from "../AutoComplete/AutoComplete";
 import { useParams } from "react-router-dom";
 import { FileType } from "../../types/FileType";
+import Switch from "react-switch";
+import { MoonIcon, SunIcon } from "../Nav/Nav.styles";
+import { AiFillCalendar, MdSdStorage } from "react-icons/all";
 
 interface Props {
   searchFilters: SearchFilters;
@@ -163,6 +168,13 @@ const FilterBar: React.FC<Props> = ({
       </FilterWrapper>
 
       <SearchWrapper>
+        <Switch
+          checked={false}
+          onChange={() => console.log("checked")}
+          checkedIcon={<CalendarIcon />}
+          uncheckedIcon={<StorageIcon />}
+          offColor="#faf"
+        />
         <Checkbox
           label="Od najnowszych"
           id="sort"
