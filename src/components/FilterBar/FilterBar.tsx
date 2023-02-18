@@ -40,6 +40,16 @@ const FilterBar: React.FC<Props> = ({
   const { author, sortType, subject, title, sortBy } = searchFilters;
   const { filterBarOpened } = useContext(UIContext);
 
+  const createdAtSortLabel = {
+    desc: "Od najstarszych",
+    asc: "Od najnowszych",
+  };
+
+  const fileSizeSortLabel = {
+    desc: "Od najcięższych",
+    asc: "Od najlżejszych",
+  };
+
   const [autoComplete, setAutoComplete] = useState<
     { _id: string; title: string }[]
   >([]);
@@ -183,7 +193,11 @@ const FilterBar: React.FC<Props> = ({
           offColor="#faf"
         />
         <Checkbox
-          label={sortBy === "createdAt" ? "Od najnowszych" : "Od najcięższych"}
+          label={
+            sortBy === "createdAt"
+              ? createdAtSortLabel[sortType]
+              : fileSizeSortLabel[sortType]
+          }
           id="sort"
           name="sort"
           checked={sortType === "desc"}
