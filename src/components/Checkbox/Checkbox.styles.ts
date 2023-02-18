@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const Label = styled.label`
   font-weight: 700;
+  margin-left: 15px;
   font-size: 22px;
   color: ${({ theme }) => theme.contrastColor};
   display: block;

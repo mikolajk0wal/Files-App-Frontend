@@ -183,7 +183,7 @@ const FilterBar: React.FC<Props> = ({
           offColor="#faf"
         />
         <Checkbox
-          label="Od najnowszych"
+          label={sortBy === "createdAt" ? "Od najnowszych" : "Od najcięższych"}
           id="sort"
           name="sort"
           checked={sortType === "desc"}
