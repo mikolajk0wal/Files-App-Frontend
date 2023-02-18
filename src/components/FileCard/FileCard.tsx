@@ -20,6 +20,7 @@ import { useDeleteFileMutation } from "../../services/files";
 import { UIContext } from "../../context/UIContext";
 import { UserType } from "../../enums/UserType";
 import { SearchFilters } from "../../views/FilesPage";
+import { readAbleFileSize } from "../../utils/readableFileSize";
 
 interface Props {
   title: string;
@@ -127,7 +128,7 @@ const FileCard: React.FC<Props> = ({
           </DeleteButton>
         )}
       </ButtonsWrapper>
-      <Paragraph>Rozmiar pliku: {fileSize}</Paragraph>
+      <Paragraph>Rozmiar pliku: {readAbleFileSize(fileSize)}</Paragraph>
     </Wrapper>
   );
 };
