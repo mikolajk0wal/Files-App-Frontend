@@ -28,6 +28,7 @@ interface Props {
   type: FileType;
   createdAt: string;
   id: string;
+  fileSize: number;
   setSearchFilters?: React.Dispatch<React.SetStateAction<SearchFilters>>;
 }
 
@@ -39,6 +40,7 @@ const FileCard: React.FC<Props> = ({
   id,
   type,
   setSearchFilters,
+  fileSize,
 }) => {
   const { sortType, editFileSidebar } = useContext(UIContext);
   const [deleteFile] = useDeleteFileMutation();
@@ -125,6 +127,7 @@ const FileCard: React.FC<Props> = ({
           </DeleteButton>
         )}
       </ButtonsWrapper>
+      <Paragraph>Rozmiar pliku: {fileSize}</Paragraph>
     </Wrapper>
   );
 };

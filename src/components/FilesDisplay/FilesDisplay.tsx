@@ -85,18 +85,29 @@ const FilesDisplay: FC<Props> = ({ type, login }) => {
     content = (
       <>
         <CardsWrapper>
-          {files.map(({ _id, authorName, createdAt, subject, title, type }) => (
-            <FileCard
-              key={_id}
-              id={_id}
-              authorName={authorName}
-              createdAt={createdAt}
-              subject={subject}
-              title={title}
-              type={type}
-              setSearchFilters={setSearchFilters}
-            />
-          ))}
+          {files.map(
+            ({
+              _id,
+              authorName,
+              createdAt,
+              subject,
+              title,
+              type,
+              fileSize,
+            }) => (
+              <FileCard
+                key={_id}
+                fileSize={fileSize}
+                id={_id}
+                authorName={authorName}
+                createdAt={createdAt}
+                subject={subject}
+                title={title}
+                type={type}
+                setSearchFilters={setSearchFilters}
+              />
+            )
+          )}
         </CardsWrapper>
         {requiredPages > 1 && (
           <PaginationBar

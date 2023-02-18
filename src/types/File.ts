@@ -1,4 +1,4 @@
-import { FileType } from './FileType';
+import { FileType } from "./FileType";
 
 export interface FileInterface {
   _id: string;
@@ -9,4 +9,5 @@ export interface FileInterface {
   type: FileType;
   createdAt: string;
   updatedAt: string;
+  fileSize: number;
 }
