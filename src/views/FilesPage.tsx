@@ -6,14 +6,6 @@ import FilesDisplay from "../components/FilesDisplay/FilesDisplay";
 import { isDashboard } from "../utils/isDashboard";
 import { FilesType } from "../components/FilesDisplay/FilesDisplay.styles";
 
-export type SearchFilters = {
-  title?: string;
-  subject?: string;
-  author?: string;
-  page?: number;
-  sortType: SortType;
-};
-
 const FilesPage = () => {
   const dashboard = isDashboard();
   const { pathname } = useLocation();

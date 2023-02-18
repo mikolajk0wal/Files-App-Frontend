@@ -15,6 +15,7 @@ export type SearchFilters = {
   author?: string;
   page?: number;
   sortType: SortType;
+  sortBy?: "createdAt" | "fileSize";
 };
 
 interface Props {
@@ -31,6 +32,7 @@ const FilesDisplay: FC<Props> = ({ type, login }) => {
     subject: "",
     title: "",
     page: 1,
+    sortBy: "createdAt",
   };
 
   const [searchFilters, setSearchFilters] =

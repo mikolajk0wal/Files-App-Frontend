@@ -14,7 +14,7 @@ import {
 import Checkbox from "../Checkbox/Checkbox";
 import React, { ChangeEvent, useContext, useEffect, useState } from "react";
 import { UIContext } from "../../context/UIContext";
-import { SearchFilters } from "../../views/FilesPage";
+import { SearchFilters } from "../FilesDisplay/FilesDisplay";
 import { isDashboard } from "../../utils/isDashboard";
 import axios from "axios";
 import AutoComplete from "../AutoComplete/AutoComplete";
@@ -37,17 +37,24 @@ const FilterBar: React.FC<Props> = ({
 }) => {
   const dashboard = isDashboard();
   const { login } = useParams() as any;
-  const { author, sortType, subject, title } = searchFilters;
+  const { author, sortType, subject, title, sortBy } = searchFilters;
   const { filterBarOpened } = useContext(UIContext);
 
   const [autoComplete, setAutoComplete] = useState<
     { _id: string; title: string }[]
   >([]);
 
-  const handleCheckboxClick = () => {
+  const handleSortTypeCheckboxClick = () => {
     setSearchFilters((prevState: SearchFilters) => ({
       ...prevState,
       sortType: prevState.sortType === "asc" ? "desc" : "asc",
+    }));
+  };
+
+  const handleSortByCheckboxClick = () => {
+    setSearchFilters((prevState: SearchFilters) => ({
+      ...prevState,
+      sortBy: prevState.sortBy === "createdAt" ? "fileSize" : "createdAt",
     }));
   };
 
@@ -169,8 +176,8 @@ const FilterBar: React.FC<Props> = ({
 
       <SearchWrapper>
         <Switch
-          checked={false}
-          onChange={() => console.log("checked")}
+          checked={sortBy === "createdAt"}
+          onChange={handleSortByCheckboxClick}
           checkedIcon={<CalendarIcon />}
           uncheckedIcon={<StorageIcon />}
           offColor="#faf"
@@ -180,7 +187,7 @@ const FilterBar: React.FC<Props> = ({
           id="sort"
           name="sort"
           checked={sortType === "desc"}
-          onChange={handleCheckboxClick}
+          onChange={handleSortTypeCheckboxClick}
         />
 
         <SearchButton type="submit" dashboard={dashboard}>
