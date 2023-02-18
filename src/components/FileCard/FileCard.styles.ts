@@ -4,14 +4,14 @@ import { Button } from "../Button/Button";
 import { Link } from "react-router-dom";
 
 export const Wrapper = styled.article`
-  width: 340px;
+  width: 350px;
   min-height: 280px;
   background-color: ${({ theme }) => theme.primaryColor};
   border-radius: 45px;
   display: flex;
   margin: 30px;
   flex-direction: column;
-  padding: 20px;
+  padding: 30px 30px 20px 30px;
   align-items: center;
   justify-content: center;
   @media (max-width: 1050px) {
@@ -76,7 +76,7 @@ export const AuthorLink = styled(Link)`
 export const ButtonsWrapper = styled.div`
   display: flex;
   justify-content: space-around;
-  margin-top: auto;
+  //margin-top: auto;
 `;
 
 const iconStyles = css`
