@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { AiOutlineClockCircle } from 'react-icons/ai';
+import styled from "styled-components";
+import { AiOutlineClockCircle } from "react-icons/ai";
 
 export const LoaderWrapper = styled.section`
   display: flex;
@@ -14,14 +14,17 @@ export const LoaderWrapper = styled.section`
 
 export const ClockIcon = styled(AiOutlineClockCircle)`
   font-size: 6rem;
+  color: ${({ theme }) => theme.contrastColor};
 `;
 
 export const HeaderInfo = styled.h3`
   font-size: 2rem;
   padding: 10px;
   text-align: center;
+  color: ${({ theme }) => theme.contrastColor};
 `;
 export const ParagraphInfo = styled.p`
   font-size: 1.3rem;
   text-align: center;
+  color: ${({ theme }) => theme.contrastColor};
 `;
