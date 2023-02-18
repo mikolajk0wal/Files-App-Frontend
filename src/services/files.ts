@@ -20,6 +20,7 @@ interface CreateFileDto {
   subject: string;
   file: File;
   sortType: SortType;
+  sortBy: "createdAt" | "fileSize";
 }
 
 interface EditFileDto {
@@ -27,16 +28,19 @@ interface EditFileDto {
   subject: string;
   id: string;
   sortType: SortType;
+  sortBy: "createdAt" | "fileSize";
 }
 
 interface DeleteFileDto {
   id: string;
   sortType: SortType;
+  sortBy: "createdAt" | "fileSize";
 }
 
 interface GetFilesDto {
   type?: FileType;
   sortType: SortType;
+  sortBy: "createdAt" | "fileSize";
   author?: string;
   subject?: string;
   title?: string;
@@ -55,10 +59,11 @@ export const filesApi = createApi({
   tagTypes: ["File"],
   endpoints: (builder) => ({
     getFilesByType: builder.query<FindFilesResponse, GetFilesDto>({
-      query: ({ type, sortType, subject, title, author, page, userPage }) => {
+      query: ({ type, sortType, subject, title, author, page, sortBy }) => {
         const url = new URL(window.location.href);
         url.searchParams.set("sort", sortType ? sortType : "desc");
-        type && url.searchParams.set("type", type ? type : "");
+        type && url.searchParams.set("type", type);
+        sortBy && url.searchParams.set("sort_by", sortBy);
         subject && url.searchParams.set("subject", subject);
         title && url.searchParams.set("q", title);
         author && url.searchParams.set("authorName", author);
@@ -87,7 +92,7 @@ export const filesApi = createApi({
       },
       invalidatesTags: ["File"],
       async onQueryStarted(
-        { sortType }: CreateFileDto,
+        { sortType, sortBy }: CreateFileDto,
         { dispatch, queryFulfilled }
       ) {
         try {
@@ -95,7 +100,7 @@ export const filesApi = createApi({
           dispatch(
             filesApi.util.updateQueryData(
               "getFilesByType",
-              { type: addedFile.type, sortType },
+              { type: addedFile.type, sortType, sortBy },
               (draft) => {
                 if (sortType === "desc") {
                   draft.files.unshift(addedFile);
@@ -121,13 +126,13 @@ export const filesApi = createApi({
         };
       },
       invalidatesTags: ["File"],
-      async onQueryStarted({ sortType }, { dispatch, queryFulfilled }) {
+      async onQueryStarted({ sortType, sortBy }, { dispatch, queryFulfilled }) {
         try {
           const { data: editedFile } = await queryFulfilled;
           dispatch(
             filesApi.util.updateQueryData(
               "getFilesByType",
-              { type: editedFile.type, sortType },
+              { type: editedFile.type, sortType, sortBy },
               (draft) => {
                 const idS = draft.files.map((file) => file._id);
                 const index = idS.indexOf(editedFile._id);
@@ -151,13 +156,13 @@ export const filesApi = createApi({
       },
       invalidatesTags: ["File"],
 
-      async onQueryStarted({ sortType }, { dispatch, queryFulfilled }) {
+      async onQueryStarted({ sortType, sortBy }, { dispatch, queryFulfilled }) {
         try {
           const { data: deletedFile } = await queryFulfilled;
           dispatch(
             filesApi.util.updateQueryData(
               "getFilesByType",
-              { type: deletedFile.type, sortType },
+              { type: deletedFile.type, sortType, sortBy },
               (draft) => {
                 const idS = draft.files.map((file) => file._id);
                 const index = idS.indexOf(deletedFile._id);

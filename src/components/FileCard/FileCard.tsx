@@ -43,7 +43,7 @@ const FileCard: React.FC<Props> = ({
   setSearchFilters,
   fileSize,
 }) => {
-  const { sortType, editFileSidebar } = useContext(UIContext);
+  const { sortType, editFileSidebar, sortBy } = useContext(UIContext);
   const [deleteFile] = useDeleteFileMutation();
   const { login, type: userType } = useSelector(
     (state: RootState) => state.auth
@@ -57,7 +57,7 @@ const FileCard: React.FC<Props> = ({
       confirm: true,
     });
     if (isConfirmed) {
-      deleteFile({ id, sortType })
+      deleteFile({ id, sortType, sortBy })
         .unwrap()
         .then(() => {
           showModal({ text: "Usunięto plik", icon: "success", confirm: false });

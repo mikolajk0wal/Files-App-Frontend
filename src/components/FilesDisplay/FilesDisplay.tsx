@@ -15,7 +15,7 @@ export type SearchFilters = {
   author?: string;
   page?: number;
   sortType: SortType;
-  sortBy?: "createdAt" | "fileSize";
+  sortBy: "createdAt" | "fileSize";
 };
 
 interface Props {
@@ -24,7 +24,7 @@ interface Props {
 }
 
 const FilesDisplay: FC<Props> = ({ type, login }) => {
-  const { setSortType } = useContext(UIContext);
+  const { setSortType, setSortBy } = useContext(UIContext);
 
   const INITAL_FILTERS: SearchFilters = {
     author: "",
@@ -69,6 +69,7 @@ const FilesDisplay: FC<Props> = ({ type, login }) => {
       title: title ? title : searchFilters.title,
     });
     setSortType(searchFilters.sortType);
+    setSortBy(searchFilters.sortBy);
   };
 
   let content = null;

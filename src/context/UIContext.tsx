@@ -19,6 +19,8 @@ export const UIContext = createContext({
   setFilterBarOpened: (prop: any) => {},
   setSortType: (sortType: SortType) => {},
   sortType: "desc" as SortType,
+  setSortBy: (sortBy: "createdAt" | "fileSize") => {},
+  sortBy: "createdAt" as "createdAt" | "fileSize",
   openAddFileSidebar: () => {},
   closeAddFileSidebar: () => {},
   settingsModalOpened: false,
@@ -30,6 +32,7 @@ export const UIContext = createContext({
 const UIProvider: React.FC = ({ children }) => {
   const localStorageTheme = localStorage.getItem("theme") as Theme;
   const [sortType, setSortType] = useState<SortType>("desc");
+  const [sortBy, setSortBy] = useState<"createdAt" | "fileSize">("createdAt");
   const [theme, setTheme] = useState<Theme>(
     localStorageTheme ? localStorageTheme : "light"
   );
@@ -65,6 +68,8 @@ const UIProvider: React.FC = ({ children }) => {
         setSortType,
         sortType,
         theme,
+        sortBy,
+        setSortBy,
         toggleTheme,
         filterBarOpened,
         setFilterBarOpened: setFilterBarOpened as any,

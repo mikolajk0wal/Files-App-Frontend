@@ -32,7 +32,7 @@ interface FormikValues {
 }
 
 const EditFileSidebar = () => {
-  const { editFileSidebar, sortType } = useContext(UIContext);
+  const { editFileSidebar, sortType, sortBy } = useContext(UIContext);
   const { initialData } = editFileSidebar;
 
   const [editFile] = useEditFileMutation();
@@ -55,6 +55,7 @@ const EditFileSidebar = () => {
           subject,
           id: editFileSidebar.initialData.fileId,
           sortType,
+          sortBy,
         })
           .unwrap()
           .then((payload) => {

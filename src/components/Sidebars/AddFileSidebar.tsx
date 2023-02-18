@@ -36,7 +36,7 @@ interface FormikValues {
 }
 
 const AddFileSidebar: React.FC = () => {
-  const { sortType, addFileSidebarOpened, closeAddFileSidebar } =
+  const { sortType, sortBy, addFileSidebarOpened, closeAddFileSidebar } =
     useContext(UIContext);
   const [file, setFile] = useState<File | null>(null);
 
@@ -70,6 +70,7 @@ const AddFileSidebar: React.FC = () => {
           subject,
           title,
           sortType,
+          sortBy,
         })
           .unwrap()
           .then((payload) => {
