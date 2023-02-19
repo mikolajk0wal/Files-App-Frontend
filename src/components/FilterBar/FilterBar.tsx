@@ -83,12 +83,14 @@ const FilterBar: React.FC<Props> = ({
             url.searchParams.set("type", fileType);
           }
           const isDevEnv = process.env.NODE_ENV === "development";
-          const { data } = await axios.get(
+          const { data } = (await axios.get(
             `${
               isDevEnv ? "http://localhost:8000" : ""
             }/api/files/autocomplete/${title}${url.search}`
-          );
-          setAutoComplete(data);
+          )) as any;
+          if (title !== data[0]?.title) {
+            setAutoComplete(data);
+          }
         } catch (e) {
           setAutoComplete([]);
         }
