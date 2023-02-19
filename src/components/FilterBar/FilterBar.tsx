@@ -41,8 +41,8 @@ const FilterBar: React.FC<Props> = ({
   const { filterBarOpened } = useContext(UIContext);
 
   const createdAtSortLabel = {
-    desc: "Od najstarszych",
-    asc: "Od najnowszych",
+    desc: "Od najnowszych",
+    asc: "Od najstarszych",
   };
 
   const fileSizeSortLabel = {
