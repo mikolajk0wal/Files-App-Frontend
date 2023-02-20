@@ -19,7 +19,7 @@ import useModal from "../../hooks/useModal";
 import { useDeleteFileMutation } from "../../services/files";
 import { UIContext } from "../../context/UIContext";
 import { UserType } from "../../enums/UserType";
-import { SearchFilters } from "../../views/FilesPage";
+import { SearchFilters } from "../FilesDisplay/FilesDisplay";
 import { readAbleFileSize } from "../../utils/readableFileSize";
 
 interface Props {
@@ -43,6 +43,8 @@ const FileCard: React.FC<Props> = ({
   id,
   type,
   setSearchFilters,
+  slug,
+  extension,
   fileSize,
 }) => {
   const { sortType, editFileSidebar, sortBy } = useContext(UIContext);
@@ -111,8 +113,8 @@ const FileCard: React.FC<Props> = ({
           as="a"
           href={
             process.env.NODE_ENV === "development"
-              ? `http://localhost:8000/api/files/file/${id}`
-              : `${document.location.origin}/api/files/file/${id}`
+              ? `http://localhost:8000/api/files/file/slug/${slug}`
+              : `${document.location.origin}/api/files/file/slug/${slug}`
           }
         >
           Pobierz
