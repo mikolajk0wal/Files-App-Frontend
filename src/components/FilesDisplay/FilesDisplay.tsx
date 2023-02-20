@@ -97,11 +97,15 @@ const FilesDisplay: FC<Props> = ({ type, login }) => {
               title,
               type,
               fileSize,
+              slug,
+              extension,
             }) => (
               <FileCard
                 key={_id}
                 fileSize={fileSize}
                 id={_id}
+                slug={slug}
+                extension={extension}
                 authorName={authorName}
                 createdAt={createdAt}
                 subject={subject}

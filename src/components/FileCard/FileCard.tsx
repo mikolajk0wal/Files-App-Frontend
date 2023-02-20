@@ -30,6 +30,8 @@ interface Props {
   createdAt: string;
   id: string;
   fileSize: number;
+  slug: string;
+  extension: string;
   setSearchFilters?: React.Dispatch<React.SetStateAction<SearchFilters>>;
 }
 

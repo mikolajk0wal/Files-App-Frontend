@@ -10,4 +10,6 @@ export interface FileInterface {
   createdAt: string;
   updatedAt: string;
   fileSize: number;
+  extension: string;
+  slug: string;
 }
