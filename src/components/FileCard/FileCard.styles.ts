@@ -1,6 +1,6 @@
 import { MdDelete, MdEdit } from "react-icons/md";
 import styled, { css } from "styled-components";
-import { Button } from "../Button/Button";
+import { buttonStyles as buttonComponentStyles } from "../Button/Button";
 import { Link } from "react-router-dom";
 
 export const Wrapper = styled.article`
@@ -120,7 +120,8 @@ export const EditIcon = styled(MdEdit)`
   ${iconStyles}
 `;
 
-export const DownloadButton = styled(Button)`
+export const FileLink = styled(Link)`
+  ${buttonComponentStyles};
   padding: 10px 30px;
   margin: 15px;
   border-radius: 20px;

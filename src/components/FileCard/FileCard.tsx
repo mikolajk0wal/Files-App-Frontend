@@ -12,6 +12,7 @@ import {
   EditButton,
   EditIcon,
   AuthorLink,
+  FileLink,
 } from "./FileCard.styles";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
@@ -21,6 +22,7 @@ import { UIContext } from "../../context/UIContext";
 import { UserType } from "../../enums/UserType";
 import { SearchFilters } from "../FilesDisplay/FilesDisplay";
 import { readAbleFileSize } from "../../utils/readableFileSize";
+import { Link } from "react-router-dom";
 
 interface Props {
   title: string;
@@ -109,16 +111,7 @@ const FileCard: React.FC<Props> = ({
         Data Dodania: {dayjs(createdAt).format("DD/MM/YYYY")}
       </Paragraph>
       <ButtonsWrapper>
-        <DownloadButton
-          as="a"
-          href={
-            process.env.NODE_ENV === "development"
-              ? `http://localhost:8000/api/files/file/slug/${slug}`
-              : `${document.location.origin}/api/files/file/slug/${slug}`
-          }
-        >
-          Pobierz
-        </DownloadButton>
+        <FileLink to={`/file/${slug}`}>Zobacz</FileLink>
         {canEdit && (
           <>
             <EditButton aria-label="Edit File" onClick={handleEditButtonClick}>

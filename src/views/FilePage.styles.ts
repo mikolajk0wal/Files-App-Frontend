@@ -2,6 +2,7 @@ import styled, { css } from "styled-components";
 import { VscFilePdf } from "react-icons/vsc";
 import { MdImage } from "react-icons/md";
 import { AiFillFolder } from "react-icons/ai";
+import { Button } from "../components/Button/Button";
 
 interface IconProps {
   alt: string;
@@ -19,15 +20,19 @@ const IconStyles = css`
   } ;
 `;
 
-export const Wrapper = styled.section`
+export const FileWrapper = styled.section`
   display: flex;
   margin: 70px;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  //min-width: 770px;
 `;
 export const InfoWrapper = styled.section``;
+
+export const ButtonsWrapper = styled.section`
+  display: flex;
+  justify-content: center;
+`;
 
 export const PdfIcon = styled(VscFilePdf)<IconProps>`
   ${IconStyles}
@@ -60,4 +65,8 @@ export const Paragraph = styled.p`
   @media (max-width: 1050px) {
     font-size: 1.25rem;
   } ;
+`;
+
+export const DownloadButton = styled(Button)`
+  text-decoration: none;
 `;

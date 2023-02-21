@@ -5,7 +5,9 @@ import {
   ImgIcon,
   OtherIcon,
   Title,
-  Wrapper,
+  FileWrapper,
+  ButtonsWrapper,
+  DownloadButton,
 } from "./FilePage.styles";
 import { useGetFileBySlugQuery } from "../services/files";
 import { useParams } from "react-router-dom";
@@ -33,19 +35,33 @@ const FilePage = () => {
     const { title, authorName, subject, createdAt, extension, fileSize, type } =
       file;
     return (
-      <Wrapper>
-        {ICONS[type]}
-        <InfoWrapper>
-          <Title>{title}</Title>
-          <Paragraph>Dodany przez: {authorName}</Paragraph>
-          <Paragraph>Temat: {subject}</Paragraph>
-          <Paragraph>
-            Data dodania: {dayjs(createdAt).format("DD/MM/YYYY")}
-          </Paragraph>
-          <Paragraph>Rozszerzenie: .{extension}</Paragraph>
-          <Paragraph>Rozmiar pliku: {readAbleFileSize(fileSize)}</Paragraph>
-        </InfoWrapper>
-      </Wrapper>
+      <>
+        <FileWrapper>
+          {ICONS[type]}
+          <InfoWrapper>
+            <Title>{title}</Title>
+            <Paragraph>Dodany przez: {authorName}</Paragraph>
+            <Paragraph>Temat: {subject}</Paragraph>
+            <Paragraph>
+              Data dodania: {dayjs(createdAt).format("DD/MM/YYYY")}
+            </Paragraph>
+            <Paragraph>Rozszerzenie: .{extension}</Paragraph>
+            <Paragraph>Rozmiar pliku: {readAbleFileSize(fileSize)}</Paragraph>
+          </InfoWrapper>
+        </FileWrapper>
+        <ButtonsWrapper>
+          <DownloadButton
+            as="a"
+            href={
+              process.env.NODE_ENV === "development"
+                ? `http://localhost:8000/api/files/file/slug/${slug}`
+                : `${document.location.origin}/api/files/file/slug/${slug}`
+            }
+          >
+            Pobierz
+          </DownloadButton>
+        </ButtonsWrapper>
+      </>
     );
   }
   return (
