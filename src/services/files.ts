@@ -74,6 +74,10 @@ export const filesApi = createApi({
       },
       providesTags: ["File"],
     }),
+    getFileBySlug: builder.query<FileInterface, string>({
+      query: (slug) => `files/slug/${slug}`,
+      providesTags: ["File"],
+    }),
     addFile: builder.mutation({
       query: ({ title, subject, file }: CreateFileDto) => {
         const jwt = localStorage.getItem("jwt");
@@ -181,4 +185,5 @@ export const {
   useAddFileMutation,
   useDeleteFileMutation,
   useEditFileMutation,
+  useGetFileBySlugQuery,
 } = filesApi;
