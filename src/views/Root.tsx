@@ -3,6 +3,7 @@ import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import PageTemplate from "../components/PageTemplate/PageTemplate";
 import UIProvider from "../context/UIContext";
 import CustomLoader from "../components/CustomLoader/CustomLoader";
+import FilePage from "./FilePage";
 
 const Login = React.lazy(() => import("./Login"));
 const FilesPage = React.lazy(() => import("./FilesPage"));
@@ -31,6 +32,9 @@ const Root = () => {
                 ]}
               >
                 <FilesPage />
+              </Route>
+              <Route exact path="/file/:slug">
+                <FilePage />
               </Route>
               <Route exact path="/users/:login">
                 <UserPage />
