@@ -12,23 +12,20 @@ const IconStyles = css`
   background-color: transparent;
   width: 270px;
   height: 270px;
-  @media (max-width: 650px) {
-    width: 60px;
-    height: 60px;
-    border-radius: 13.5px;
-    margin: 5px;
-  }
-  @media (max-width: 530px) {
-    width: 50px;
-    height: 50px;
-    border-radius: 12px;
-  }
+
+  @media (max-width: 1050px) {
+    width: 150px;
+    height: 150px;
+  } ;
 `;
 
 export const Wrapper = styled.section`
   display: flex;
   margin: 70px;
-  //align-self: flex-start;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  //min-width: 770px;
 `;
 export const InfoWrapper = styled.section``;
 
@@ -46,13 +43,21 @@ export const OtherIcon = styled(AiFillFolder)<IconProps>`
 
 export const Title = styled.h1`
   font-weight: 600;
+  text-align: center;
   font-size: 2.75rem;
   color: ${({ theme }) => theme.contrastColor};
+  @media (max-width: 1050px) {
+    font-size: 2rem;
+  } ;
 `;
 
 export const Paragraph = styled.p`
   font-size: 1.5rem;
   margin: 10px 5px;
   font-weight: 500;
+
   color: ${({ theme }) => theme.contrastColor};
+  @media (max-width: 1050px) {
+    font-size: 1.25rem;
+  } ;
 `;
