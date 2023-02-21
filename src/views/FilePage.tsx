@@ -2,6 +2,8 @@ import {
   InfoWrapper,
   Paragraph,
   PdfIcon,
+  ImgIcon,
+  OtherIcon,
   Title,
   Wrapper,
 } from "./FilePage.styles";
@@ -11,6 +13,12 @@ import { useEffect } from "react";
 import FilesLoadingAndErrorHandler from "../components/FilesDisplay/FilesLoadingAndErrorHandler";
 import { readAbleFileSize } from "../utils/readableFileSize";
 import dayjs from "dayjs";
+
+const ICONS = {
+  pdf: <PdfIcon alt="Ikona PDF" />,
+  img: <ImgIcon alt="Ikona IMG" />,
+  other: <OtherIcon alt="Ikona pliku" />,
+};
 
 const FilePage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -26,7 +34,7 @@ const FilePage = () => {
       file;
     return (
       <Wrapper>
-        <PdfIcon alt="Ikona PDF" />
+        {ICONS[type]}
         <InfoWrapper>
           <Title>{title}</Title>
           <Paragraph>Dodany przez: {authorName}</Paragraph>
