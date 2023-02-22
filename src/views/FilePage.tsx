@@ -11,7 +11,10 @@ import {
   DeleteButton,
   EditButton,
 } from "./FilePage.styles";
-import { useGetFileBySlugQuery } from "../services/files";
+import {
+  useDeleteFileMutation,
+  useGetFileBySlugQuery,
+} from "../services/files";
 import { useParams } from "react-router-dom";
 import { useCallback, useContext, useEffect, useMemo } from "react";
 import FilesLoadingAndErrorHandler from "../components/FilesDisplay/FilesLoadingAndErrorHandler";
@@ -21,6 +24,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { UserType } from "../enums/UserType";
 import { UIContext } from "../context/UIContext";
+import useModal from "../hooks/useModal";
 
 const ICONS = {
   pdf: <PdfIcon alt="Ikona PDF" />,
@@ -46,7 +50,9 @@ const FilePage = () => {
     _id,
   } = file || {};
 
-  const { editFileSidebar } = useContext(UIContext);
+  const { editFileSidebar, sortType, sortBy } = useContext(UIContext);
+  const showModal = useModal();
+  const [deleteFile] = useDeleteFileMutation();
 
   useEffect(() => {
     if (file) {
@@ -58,6 +64,32 @@ const FilePage = () => {
     editFileSidebar.setInitialData({ title, subject, fileId: _id });
     editFileSidebar.setOpened(true);
   }, [title, subject, _id]);
+
+  const handleDeleteButtonClick = async () => {
+    const isConfirmed = await showModal({
+      text: "Czy napewno chcesz usunąć ten plik ?",
+      icon: "question",
+      confirm: true,
+    });
+    if (isConfirmed && _id) {
+      deleteFile({ id: _id, sortType, sortBy })
+        .unwrap()
+        .then(() => {
+          showModal({
+            text: "Usunięto plik",
+            icon: "success",
+            confirm: false,
+            redirectUrl: `/${type}`,
+          });
+        })
+        .catch((err) => {
+          const message = err?.data?.message
+            ? err.data.message
+            : "Błąd przy usuwaniu pliku";
+          showModal({ text: message, icon: "error", confirm: false });
+        });
+    }
+  };
 
   if (file && !isLoading) {
     const canEdit = authorName === login;
@@ -97,7 +129,11 @@ const FilePage = () => {
           >
             Pobierz
           </DownloadButton>
-          {canDelete && <DeleteButton>Usuń plik</DeleteButton>}
+          {canDelete && (
+            <DeleteButton onClick={handleDeleteButtonClick}>
+              Usuń plik
+            </DeleteButton>
+          )}
         </ButtonsWrapper>
       </>
     );

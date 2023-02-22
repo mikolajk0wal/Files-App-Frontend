@@ -69,7 +69,7 @@ const FileCard: React.FC<Props> = ({
         .catch((err) => {
           const message = err?.data?.message
             ? err.data.message
-            : "Błąd przy rejestracji";
+            : "Błąd przy usuwaniu pliku";
           showModal({ text: message, icon: "error", confirm: false });
         });
     }
