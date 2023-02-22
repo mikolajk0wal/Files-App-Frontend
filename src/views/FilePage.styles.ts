@@ -32,6 +32,7 @@ export const InfoWrapper = styled.section``;
 export const ButtonsWrapper = styled.section`
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
 `;
 
 export const PdfIcon = styled(VscFilePdf)<IconProps>`
@@ -71,6 +72,7 @@ const buttonStyles = css`
   text-decoration: none;
   border-radius: 40px;
   margin: 10px;
+  min-width: 230px;
 `;
 
 export const DownloadButton = styled(Button)`
