@@ -8,6 +8,8 @@ import {
   FileWrapper,
   ButtonsWrapper,
   DownloadButton,
+  DeleteButton,
+  EditButton,
 } from "./FilePage.styles";
 import { useGetFileBySlugQuery } from "../services/files";
 import { useParams } from "react-router-dom";
@@ -15,6 +17,9 @@ import { useEffect } from "react";
 import FilesLoadingAndErrorHandler from "../components/FilesDisplay/FilesLoadingAndErrorHandler";
 import { readAbleFileSize } from "../utils/readableFileSize";
 import dayjs from "dayjs";
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
+import { UserType } from "../enums/UserType";
 
 const ICONS = {
   pdf: <PdfIcon alt="Ikona PDF" />,
@@ -25,6 +30,9 @@ const ICONS = {
 const FilePage = () => {
   const { slug } = useParams<{ slug: string }>();
   const { data: file, error, isLoading, refetch } = useGetFileBySlugQuery(slug);
+  const { type: userType, login } = useSelector(
+    (state: RootState) => state.auth
+  );
 
   useEffect(() => {
     if (file) {
@@ -34,6 +42,11 @@ const FilePage = () => {
   if (file && !isLoading) {
     const { title, authorName, subject, createdAt, extension, fileSize, type } =
       file;
+    const canEdit = authorName === login;
+    const canDelete =
+      authorName === login ||
+      userType === UserType.admin ||
+      userType === UserType.moderator;
     return (
       <>
         <FileWrapper>
@@ -50,6 +63,7 @@ const FilePage = () => {
           </InfoWrapper>
         </FileWrapper>
         <ButtonsWrapper>
+          {canEdit && <EditButton>Edytuj plik</EditButton>}
           <DownloadButton
             as="a"
             href={
@@ -60,6 +74,7 @@ const FilePage = () => {
           >
             Pobierz
           </DownloadButton>
+          {canDelete && <DeleteButton>Usuń plik</DeleteButton>}
         </ButtonsWrapper>
       </>
     );

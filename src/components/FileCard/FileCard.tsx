@@ -5,7 +5,6 @@ import {
   ButtonsWrapper,
   DeleteButton,
   DeleteIcon,
-  DownloadButton,
   Paragraph,
   Title,
   Wrapper,
@@ -22,7 +21,6 @@ import { UIContext } from "../../context/UIContext";
 import { UserType } from "../../enums/UserType";
 import { SearchFilters } from "../FilesDisplay/FilesDisplay";
 import { readAbleFileSize } from "../../utils/readableFileSize";
-import { Link } from "react-router-dom";
 
 interface Props {
   title: string;

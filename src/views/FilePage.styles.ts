@@ -67,6 +67,24 @@ export const Paragraph = styled.p`
   } ;
 `;
 
-export const DownloadButton = styled(Button)`
+const buttonStyles = css`
   text-decoration: none;
+  border-radius: 40px;
+  margin: 10px;
+`;
+
+export const DownloadButton = styled(Button)`
+  ${buttonStyles}
+`;
+
+export const EditButton = styled(Button)`
+  background-color: #faff00;
+  color: #000;
+  ${buttonStyles}
+`;
+
+export const DeleteButton = styled(Button)`
+  background-color: #ff0f00;
+  color: #fff;
+  ${buttonStyles}
 `;
