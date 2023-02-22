@@ -13,13 +13,14 @@ import {
 } from "./FilePage.styles";
 import { useGetFileBySlugQuery } from "../services/files";
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useCallback, useContext, useEffect, useMemo } from "react";
 import FilesLoadingAndErrorHandler from "../components/FilesDisplay/FilesLoadingAndErrorHandler";
 import { readAbleFileSize } from "../utils/readableFileSize";
 import dayjs from "dayjs";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { UserType } from "../enums/UserType";
+import { UIContext } from "../context/UIContext";
 
 const ICONS = {
   pdf: <PdfIcon alt="Ikona PDF" />,
@@ -34,23 +35,41 @@ const FilePage = () => {
     (state: RootState) => state.auth
   );
 
+  const {
+    title,
+    authorName,
+    subject,
+    createdAt,
+    extension,
+    fileSize,
+    type,
+    _id,
+  } = file || {};
+
+  const { editFileSidebar } = useContext(UIContext);
+
   useEffect(() => {
     if (file) {
-      document.title = `${file.title} | Aplikacja do plików`;
+      document.title = `${title} | Aplikacja do plików`;
     }
   }, [file]);
+
+  const handleEditButtonClick = useCallback(() => {
+    editFileSidebar.setInitialData({ title, subject, fileId: _id });
+    editFileSidebar.setOpened(true);
+  }, [title, subject, _id]);
+
   if (file && !isLoading) {
-    const { title, authorName, subject, createdAt, extension, fileSize, type } =
-      file;
     const canEdit = authorName === login;
     const canDelete =
       authorName === login ||
       userType === UserType.admin ||
       userType === UserType.moderator;
+
     return (
       <>
         <FileWrapper>
-          {ICONS[type]}
+          {ICONS[file.type]}
           <InfoWrapper>
             <Title>{title}</Title>
             <Paragraph>Dodany przez: {authorName}</Paragraph>
@@ -59,11 +78,15 @@ const FilePage = () => {
               Data dodania: {dayjs(createdAt).format("DD/MM/YYYY")}
             </Paragraph>
             <Paragraph>Rozszerzenie: .{extension}</Paragraph>
-            <Paragraph>Rozmiar pliku: {readAbleFileSize(fileSize)}</Paragraph>
+            <Paragraph>
+              Rozmiar pliku: {readAbleFileSize(file.fileSize)}
+            </Paragraph>
           </InfoWrapper>
         </FileWrapper>
         <ButtonsWrapper>
-          {canEdit && <EditButton>Edytuj plik</EditButton>}
+          {canEdit && (
+            <EditButton onClick={handleEditButtonClick}>Edytuj plik</EditButton>
+          )}
           <DownloadButton
             as="a"
             href={

@@ -48,6 +48,9 @@ const PageTemplate: React.FC = ({ children }) => {
             <AddFileSidebar />
             <EditFileSidebar />
           </Route>
+          <Route path="/file/:slug">
+            <EditFileSidebar />
+          </Route>
           <Route path="/users/:name">
             <SettingsModal />
           </Route>
