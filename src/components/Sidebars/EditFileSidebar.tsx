@@ -34,6 +34,7 @@ interface FormikValues {
 const EditFileSidebar = () => {
   const { editFileSidebar, sortType, sortBy } = useContext(UIContext);
   const { initialData } = editFileSidebar;
+  const isOnFilePage = window.location.pathname.split("/")[1] === "file";
 
   const [editFile] = useEditFileMutation();
   const showModal = useModal();
@@ -63,6 +64,7 @@ const EditFileSidebar = () => {
               text: "Edytowano plik!",
               icon: "success",
               confirm: false,
+              redirectUrl: isOnFilePage ? `/file/${payload.slug}` : undefined,
             });
           })
           .catch((err) => {
