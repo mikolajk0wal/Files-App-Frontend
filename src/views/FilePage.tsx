@@ -10,6 +10,11 @@ import {
   DownloadButton,
   DeleteButton,
   EditButton,
+  CommentsWrapper,
+  CommentInput,
+  ResponseInfo,
+  AddCommentButton,
+  AddWrapper,
 } from "./FilePage.styles";
 import {
   useDeleteFileMutation,
@@ -135,6 +140,14 @@ const FilePage = () => {
             </DeleteButton>
           )}
         </ButtonsWrapper>
+        <CommentsWrapper>
+          <Title>Komentarze</Title>
+          <ResponseInfo>Odpowiadasz: bot</ResponseInfo>
+          <AddWrapper>
+            <CommentInput />
+            <AddCommentButton>Dodaj</AddCommentButton>
+          </AddWrapper>
+        </CommentsWrapper>
       </>
     );
   }
