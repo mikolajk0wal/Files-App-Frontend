@@ -48,12 +48,18 @@ export const CommentInput = styled.input`
   padding: 40px 10px;
   color: ${({ theme }) => theme.contrastColor};
   font-size: 1.5rem;
+  @media (max-width: 850px) {
+    align-self: center;
+  }
 `;
 
 export const ResponseInfo = styled.p`
   align-self: flex-start;
   padding: 10px;
   color: ${({ theme }) => theme.contrastColor};
+  @media (max-width: 850px) {
+    align-self: center;
+  }
 `;
 
 export const AddWrapper = styled.div`
@@ -61,6 +67,9 @@ export const AddWrapper = styled.div`
   height: max-content;
   display: flex;
   align-items: center;
+  @media (max-width: 850px) {
+    flex-direction: column;
+  }
 `;
 
 export const AddCommentButton = styled.button`
@@ -73,6 +82,10 @@ export const AddCommentButton = styled.button`
   color: ${({ theme }) => theme.contrastColor};
   font-weight: 600;
   font-size: 1.5rem;
+  @media (max-width: 850px) {
+    margin-left: 0;
+    margin-top: 15px;
+  }
 `;
 
 export const ButtonsWrapper = styled.section`
