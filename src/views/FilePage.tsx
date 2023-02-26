@@ -10,12 +10,15 @@ import {
   DownloadButton,
   DeleteButton,
   EditButton,
+} from "./FilePage.styles";
+import {
+  AddWrapper,
   CommentsWrapper,
   CommentInput,
   ResponseInfo,
   AddCommentButton,
-  AddWrapper,
-} from "./FilePage.styles";
+  CommentWrapper,
+} from "../components/Comments/Comments.styles";
 import {
   useDeleteFileMutation,
   useGetFileBySlugQuery,
