@@ -37,6 +37,8 @@ import useModal from "../hooks/useModal";
 import { useGetCommentsQuery } from "../services/comments";
 import CommentsList from "../components/Comments/CommentsList";
 
+import { Comment as CommentInterface } from "../services/comments";
+
 const ICONS = {
   pdf: <PdfIcon alt="Ikona PDF" />,
   img: <ImgIcon alt="Ikona IMG" />,
@@ -53,9 +55,6 @@ const FilePage = () => {
 
   const { title, authorName, subject, createdAt, extension, type, _id } =
     file || {};
-
-  const { data: commentsData } = useGetCommentsQuery(_id || "");
-  console.log(commentsData?.comments);
 
   const { editFileSidebar, sortType, sortBy } = useContext(UIContext);
   const showModal = useModal();
@@ -97,6 +96,32 @@ const FilePage = () => {
         });
     }
   };
+
+  const { data: commentsData } = useGetCommentsQuery(_id || "");
+  const { comments } = commentsData || {};
+  console.log(comments);
+  const groupCommentsByParentId = useCallback(
+    (comments: CommentInterface[]) => {
+      const group: any = {};
+      comments.forEach((comment) => {
+        if (comment.parentId) {
+          group[comment.parentId] = [];
+        }
+      });
+
+      // comments.forEach((comment) => {
+      //   if (comment.parentId) {
+      //     group[comment.parentId].push(comment);
+      //   }
+      // });
+
+      return group;
+    },
+    [comments]
+  );
+
+  // const result = groupCommentsByParentId;
+  comments && console.log(groupCommentsByParentId(comments));
 
   if (file && !isLoading) {
     const canEdit = authorName === login;

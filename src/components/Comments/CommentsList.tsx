@@ -1,7 +1,7 @@
 import Comment from "./Comment";
 import { Comment as CommentInterface } from "../../services/comments";
 import { CommentsWrapper } from "./Comments.styles";
-import { FC } from "react";
+import { FC, useMemo } from "react";
 
 interface Props {
   comments: CommentInterface[];
