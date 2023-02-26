@@ -1,4 +1,10 @@
-import { CommentWrapper } from "./Comments.styles";
+import {
+  AuthorInfo,
+  CommentWrapper,
+  DateInfo,
+  Message,
+  ReplyButton,
+} from "./Comments.styles";
 import { FC } from "react";
 import dayjs from "dayjs";
 
@@ -12,10 +18,10 @@ interface Props {
 const Comment: FC<Props> = ({ createdAt, authorName, parentId, message }) => {
   return (
     <CommentWrapper>
-      <p>{authorName}</p>
-      <p>{dayjs(createdAt).format("DD/MM/YYYY hh:mm")}</p>
-      <p>{message}</p>
-      <button>Odpowiedz</button>
+      <AuthorInfo>{authorName}</AuthorInfo>
+      <DateInfo>{dayjs(createdAt).format("DD/MM/YYYY hh:mm")}</DateInfo>
+      <Message>{message}</Message>
+      <ReplyButton>Odpowiedz</ReplyButton>
     </CommentWrapper>
   );
 };

@@ -1,4 +1,5 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import { Button } from "../Button/Button";
 
 export const CommentInputWrapper = styled.section`
   width: 90%;
@@ -69,6 +70,7 @@ export const CommentsWrapper = styled.section`
 
 export const CommentWrapper = styled.article`
   background-color: transparent;
+  position: relative;
   margin-top: 20px;
   border: 4px solid ${({ theme }) => theme.contrastColor};
   border-radius: 20px;
@@ -76,4 +78,37 @@ export const CommentWrapper = styled.article`
   padding: 40px 10px;
   color: ${({ theme }) => theme.contrastColor};
   font-size: 1.5rem;
+`;
+
+const absoluteInfoStyles = css`
+  position: absolute;
+  top: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: ${({ theme }) => theme.contrastColor};
+`;
+
+export const AuthorInfo = styled.p`
+  ${absoluteInfoStyles};
+  left: 10px;
+`;
+
+export const DateInfo = styled.p`
+  ${absoluteInfoStyles};
+  right: 10px;
+`;
+
+export const Message = styled.p`
+  font-size: 1.2rem;
+`;
+
+export const ReplyButton = styled(Button)`
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  padding: 5px 10px;
+  font-size: 1.2rem;
+  border-radius: 10px;
+  background-color: #5c63db;
+  color: ${({ theme }) => theme.contrastColor};
 `;
