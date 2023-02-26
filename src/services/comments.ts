@@ -12,6 +12,11 @@ interface Comment {
   parentId?: string;
 }
 
+interface GetCommentsDto {
+  fileId: string;
+  comments: Comment[];
+}
+
 export const commentsApi = createApi({
   reducerPath: "commentsApi",
   baseQuery: fetchBaseQuery({
@@ -22,9 +27,11 @@ export const commentsApi = createApi({
   }),
   tagTypes: ["Comment"],
   endpoints: (builder) => ({
-    getComments: builder.query<Comment, string>({
+    getComments: builder.query<GetCommentsDto, string>({
       query: (fileId) => `comments/${fileId}`,
       providesTags: ["Comment"],
     }),
   }),
 });
+
+export const { useGetCommentsQuery } = commentsApi;

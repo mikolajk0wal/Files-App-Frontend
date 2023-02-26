@@ -30,6 +30,7 @@ import { RootState } from "../store";
 import { UserType } from "../enums/UserType";
 import { UIContext } from "../context/UIContext";
 import useModal from "../hooks/useModal";
+import { useGetCommentsQuery } from "../services/comments";
 
 const ICONS = {
   pdf: <PdfIcon alt="Ikona PDF" />,
@@ -40,20 +41,16 @@ const ICONS = {
 const FilePage = () => {
   const { slug } = useParams<{ slug: string }>();
   const { data: file, error, isLoading, refetch } = useGetFileBySlugQuery(slug);
+
   const { type: userType, login } = useSelector(
     (state: RootState) => state.auth
   );
 
-  const {
-    title,
-    authorName,
-    subject,
-    createdAt,
-    extension,
-    fileSize,
-    type,
-    _id,
-  } = file || {};
+  const { title, authorName, subject, createdAt, extension, type, _id } =
+    file || {};
+
+  const { data: commentsData } = useGetCommentsQuery(_id || "");
+  console.log(commentsData?.comments);
 
   const { editFileSidebar, sortType, sortBy } = useContext(UIContext);
   const showModal = useModal();
