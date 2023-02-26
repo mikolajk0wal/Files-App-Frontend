@@ -59,10 +59,17 @@ export const AddCommentButton = styled.button`
   }
 `;
 
-export const CommentsWrapper = styled.section``;
+export const CommentsWrapper = styled.section`
+  width: 100%;
+  padding-left: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 export const CommentWrapper = styled.article`
   background-color: transparent;
+  margin-top: 20px;
   border: 4px solid ${({ theme }) => theme.contrastColor};
   border-radius: 20px;
   width: 75%;
