@@ -2,12 +2,13 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import { fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 import { UserType } from "../enums/UserType";
 
-interface Comment {
+export interface Comment {
   _id: string;
   message: string;
   authorId: string;
   authorName: string;
   authorRole: UserType;
+  createdAt: string;
   fileId: string;
   parentId?: string;
 }

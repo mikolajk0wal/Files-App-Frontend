@@ -1,4 +1,5 @@
 import { CommentWrapper } from "./Comments.styles";
+import { FC } from "react";
 
 interface Props {
   authorName: string;
@@ -7,7 +8,7 @@ interface Props {
   parentId?: string;
 }
 
-const Comment = () => {
+const Comment: FC<Props> = () => {
   return (
     <CommentWrapper>
       <h1>res</h1>

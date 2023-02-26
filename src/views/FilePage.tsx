@@ -35,6 +35,7 @@ import { UserType } from "../enums/UserType";
 import { UIContext } from "../context/UIContext";
 import useModal from "../hooks/useModal";
 import { useGetCommentsQuery } from "../services/comments";
+import CommentsList from "../components/Comments/CommentsList";
 
 const ICONS = {
   pdf: <PdfIcon alt="Ikona PDF" />,
@@ -149,6 +150,9 @@ const FilePage = () => {
             <AddCommentButton>Dodaj</AddCommentButton>
           </AddWrapper>
         </CommentInputWrapper>
+        {commentsData?.comments && (
+          <CommentsList comments={commentsData.comments} />
+        )}
       </>
     );
   }
