@@ -1,3 +1,5 @@
+import { CommentWrapper } from "./Comments.styles";
+
 interface Props {
   authorName: string;
   createdAt: string;
@@ -5,6 +7,12 @@ interface Props {
   parentId?: string;
 }
 
-const Comment = () => {};
+const Comment = () => {
+  return (
+    <CommentWrapper>
+      <h1>res</h1>
+    </CommentWrapper>
+  );
+};
 
 export default Comment;

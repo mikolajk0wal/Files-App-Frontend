@@ -18,6 +18,7 @@ import {
   ResponseInfo,
   AddCommentButton,
   CommentWrapper,
+  CommentInputWrapper,
 } from "../components/Comments/Comments.styles";
 import {
   useDeleteFileMutation,
@@ -140,14 +141,14 @@ const FilePage = () => {
             </DeleteButton>
           )}
         </ButtonsWrapper>
-        <CommentsWrapper>
+        <CommentInputWrapper>
           <Title>Komentarze</Title>
           <ResponseInfo>Odpowiadasz: bot</ResponseInfo>
           <AddWrapper>
             <CommentInput />
             <AddCommentButton>Dodaj</AddCommentButton>
           </AddWrapper>
-        </CommentsWrapper>
+        </CommentInputWrapper>
       </>
     );
   }

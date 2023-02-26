@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
-export const CommentWrapper = styled.article``;
-export const CommentsWrapper = styled.section`
+export const CommentInputWrapper = styled.section`
   width: 90%;
   max-width: 1200px;
   margin: 40px auto;
@@ -58,4 +57,16 @@ export const AddCommentButton = styled.button`
     margin-left: 0;
     margin-top: 15px;
   }
+`;
+
+export const CommentsWrapper = styled.section``;
+
+export const CommentWrapper = styled.article`
+  background-color: transparent;
+  border: 4px solid ${({ theme }) => theme.contrastColor};
+  border-radius: 20px;
+  width: 75%;
+  padding: 40px 10px;
+  color: ${({ theme }) => theme.contrastColor};
+  font-size: 1.5rem;
 `;
