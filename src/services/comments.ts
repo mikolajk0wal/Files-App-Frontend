@@ -32,7 +32,32 @@ export const commentsApi = createApi({
       query: (fileId) => `comments/${fileId}`,
       providesTags: ["Comment"],
     }),
+    removeComment: builder.mutation({
+      query: (id: string) => {
+        const jwt = localStorage.getItem("jwt");
+        return {
+          url: `/comments/${id}`,
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        };
+      },
+      invalidatesTags: ["Comment"],
+      async onQueryStarted(id, { dispatch, queryFulfilled }) {
+        try {
+          const { data: deletedComment } = await queryFulfilled;
+          dispatch(
+            commentsApi.util.updateQueryData("getComments", id, (draft) => {
+              const idS = draft.comments.map((comment) => comment._id);
+              const index = idS.indexOf(deletedComment._id);
+              draft.comments.splice(index, 1);
+            })
+          );
+        } catch {}
+      },
+    }),
   }),
 });
 
-export const { useGetCommentsQuery } = commentsApi;
+export const { useGetCommentsQuery, useRemoveCommentMutation } = commentsApi;

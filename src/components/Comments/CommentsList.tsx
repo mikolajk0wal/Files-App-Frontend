@@ -13,6 +13,7 @@ const CommentsList: FC<Props> = ({ comments }) => {
       {comments.map(({ _id, authorName, createdAt, message }) => (
         <Comment
           key={_id}
+          _id={_id}
           authorName={authorName}
           createdAt={createdAt}
           message={message}

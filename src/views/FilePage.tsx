@@ -98,7 +98,6 @@ const FilePage = () => {
   };
 
   const { data: commentsData } = useGetCommentsQuery(_id || "");
-  const { comments } = commentsData || {};
 
   if (file && !isLoading) {
     const canEdit = authorName === login;
