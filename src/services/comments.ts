@@ -18,6 +18,11 @@ interface GetCommentsDto {
   comments: Comment[];
 }
 
+interface AddCommentDto {
+  message: string;
+  fileId: string;
+}
+
 export const commentsApi = createApi({
   reducerPath: "commentsApi",
   baseQuery: fetchBaseQuery({
@@ -57,7 +62,35 @@ export const commentsApi = createApi({
         } catch {}
       },
     }),
+    addComment: builder.mutation({
+      query: ({ fileId, message }: AddCommentDto) => {
+        const jwt = localStorage.getItem("jwt");
+        return {
+          url: `/comments/${fileId}`,
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+          body: { message },
+        };
+      },
+      invalidatesTags: ["Comment"],
+      async onQueryStarted({ fileId }, { dispatch, queryFulfilled }) {
+        try {
+          const { data: addedComment } = await queryFulfilled;
+          dispatch(
+            commentsApi.util.updateQueryData("getComments", fileId, (draft) => {
+              draft.comments.push(addedComment);
+            })
+          );
+        } catch {}
+      },
+    }),
   }),
 });
 
-export const { useGetCommentsQuery, useRemoveCommentMutation } = commentsApi;
+export const {
+  useGetCommentsQuery,
+  useRemoveCommentMutation,
+  useAddCommentMutation,
+} = commentsApi;

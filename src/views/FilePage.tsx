@@ -25,7 +25,14 @@ import {
   useGetFileBySlugQuery,
 } from "../services/files";
 import { useParams } from "react-router-dom";
-import { useCallback, useContext, useEffect, useMemo } from "react";
+import {
+  ChangeEvent,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import FilesLoadingAndErrorHandler from "../components/FilesDisplay/FilesLoadingAndErrorHandler";
 import { readAbleFileSize } from "../utils/readableFileSize";
 import dayjs from "dayjs";
@@ -34,7 +41,10 @@ import { RootState } from "../store";
 import { UserType } from "../enums/UserType";
 import { UIContext } from "../context/UIContext";
 import useModal from "../hooks/useModal";
-import { useGetCommentsQuery } from "../services/comments";
+import {
+  useAddCommentMutation,
+  useGetCommentsQuery,
+} from "../services/comments";
 import CommentsList from "../components/Comments/CommentsList";
 
 import { Comment as CommentInterface } from "../services/comments";
@@ -46,8 +56,16 @@ const ICONS = {
 };
 
 const FilePage = () => {
+  const [commentInputValue, setCommentInputValue] = useState("");
+
+  const handleCommentInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setCommentInputValue(e.currentTarget.value);
+  };
+
   const { slug } = useParams<{ slug: string }>();
   const { data: file, error, isLoading, refetch } = useGetFileBySlugQuery(slug);
+
+  const [addComment] = useAddCommentMutation();
 
   const { type: userType, login } = useSelector(
     (state: RootState) => state.auth
@@ -70,6 +88,24 @@ const FilePage = () => {
     editFileSidebar.setInitialData({ title, subject, fileId: _id });
     editFileSidebar.setOpened(true);
   }, [title, subject, _id]);
+
+  const handleAddCommentClick = async () => {
+    addComment({ message: commentInputValue, fileId: _id! })
+      .unwrap()
+      .then(() => {
+        showModal({
+          text: "Dodano komentarz",
+          icon: "success",
+          confirm: false,
+        });
+      })
+      .catch((err) => {
+        const message = err?.data?.message
+          ? err.data.message
+          : "Błąd przy usuwaniu komentarza";
+        showModal({ text: message, icon: "error", confirm: false });
+      });
+  };
 
   const handleDeleteButtonClick = async () => {
     const isConfirmed = await showModal({
@@ -145,10 +181,14 @@ const FilePage = () => {
         </ButtonsWrapper>
         <CommentInputWrapper>
           <Title>Komentarze</Title>
-          <ResponseInfo>Odpowiadasz: bot</ResponseInfo>
           <AddWrapper>
-            <CommentInput />
-            <AddCommentButton>Dodaj</AddCommentButton>
+            <CommentInput
+              onChange={handleCommentInputChange}
+              value={commentInputValue}
+            />
+            <AddCommentButton onClick={handleAddCommentClick}>
+              Dodaj
+            </AddCommentButton>
           </AddWrapper>
         </CommentInputWrapper>
         {commentsData?.comments && (
