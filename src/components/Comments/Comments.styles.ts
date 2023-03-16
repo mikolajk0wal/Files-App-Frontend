@@ -12,7 +12,7 @@ export const CommentInputWrapper = styled.section`
 `;
 
 export const CommentInput = styled.input`
-  align-self: flex-start;
+  //align-self: flex-start;
   background-color: transparent;
   border: 4px solid ${({ theme }) => theme.contrastColor};
   border-radius: 20px;
@@ -38,7 +38,9 @@ export const AddWrapper = styled.div`
   width: 100%;
   height: max-content;
   display: flex;
+  margin: 30px;
   align-items: center;
+  justify-content: center;
   @media (max-width: 850px) {
     flex-direction: column;
   }
@@ -54,9 +56,10 @@ export const AddCommentButton = styled.button`
   color: ${({ theme }) => theme.contrastColor};
   font-weight: 600;
   font-size: 1.5rem;
-  @media (max-width: 850px) {
+  @media (max-width: 855px) {
     margin-left: 0;
     margin-top: 15px;
+    padding: 20px 40px;
   }
 `;
 
