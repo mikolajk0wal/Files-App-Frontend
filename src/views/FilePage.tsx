@@ -99,29 +99,6 @@ const FilePage = () => {
 
   const { data: commentsData } = useGetCommentsQuery(_id || "");
   const { comments } = commentsData || {};
-  console.log(comments);
-  const groupCommentsByParentId = useCallback(
-    (comments: CommentInterface[]) => {
-      const group: any = {};
-      comments.forEach((comment) => {
-        if (comment.parentId) {
-          group[comment.parentId] = [];
-        }
-      });
-
-      // comments.forEach((comment) => {
-      //   if (comment.parentId) {
-      //     group[comment.parentId].push(comment);
-      //   }
-      // });
-
-      return group;
-    },
-    [comments]
-  );
-
-  // const result = groupCommentsByParentId;
-  comments && console.log(groupCommentsByParentId(comments));
 
   if (file && !isLoading) {
     const canEdit = authorName === login;

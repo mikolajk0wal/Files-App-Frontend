@@ -102,7 +102,7 @@ export const Message = styled.p`
   font-size: 1.2rem;
 `;
 
-export const ReplyButton = styled(Button)`
+export const RemoveButton = styled(Button)`
   position: absolute;
   bottom: 10px;
   right: 10px;
