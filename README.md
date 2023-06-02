@@ -4,10 +4,10 @@
 
 ## Features
 
-✅ User Authentication: Create your own account to access the app's features.
-📥 File Upload: Easily upload your files to the app.
-🔍 File Search: Search for files uploaded by other users.
-🚀 Admin Dashboard: Access the admin dashboard to moderate the application.
+1. ✅ User Authentication: Create your own account to access the app's features.
+2. 📥 File Upload: Easily upload your files to the app.
+3. 🔍 File Search: Search for files uploaded by other users.
+4. 🚀 Admin Dashboard: Access the admin dashboard to moderate the application.
 
 ## Technologies Used
 
@@ -52,5 +52,7 @@
 📬 For any inquiries or feedback, please reach out to the project maintainer:
 
 👤 Creend
+
 📧 Email: creend42@gmail.com
+
 💼 GitHub: [@creend](https://github.com/creend)
