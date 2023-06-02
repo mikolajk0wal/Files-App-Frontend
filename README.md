@@ -11,13 +11,13 @@
 
 ## Technologies Used
 
-🔧 React.js - A JavaScript library for building user interfaces.
-🎨 CSS - Cascading Style Sheets for styling the application.
-💻 HTML - Hypertext Markup Language for structuring the web pages.
-🔧 TypeScript - A typed superset of JavaScript that compiles to plain JavaScript.
-🚀 Nest.js - A progressive Node.js framework for building efficient and scalable server-side applications.
-🗄️ MongoDB - A NoSQL database for storing and retrieving data.
-🔍 Atlas Search - A search functionality provided by MongoDB Atlas.
+1. 🔧 React.js - A JavaScript library for building user interfaces.
+2. 🎨 CSS - Cascading Style Sheets for styling the application.
+3. 💻 HTML - Hypertext Markup Language for structuring the web pages.
+4. 🔧 TypeScript - A typed superset of JavaScript that compiles to plain JavaScript.
+5. 🚀 Nest.js - A progressive Node.js framework for building efficient and scalable server-side applications.
+6. 🗄️ MongoDB - A NoSQL database for storing and retrieving data.
+7. 🔍 Atlas Search - A search functionality provided by MongoDB Atlas.
  
 ## Getting Started
 
